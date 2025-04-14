@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="EcoShop: Pro Edition - Sustainable Shopping in India" />
+    <title>EcoShop: Pro Edition</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@600&display=swap" rel="stylesheet" />
+    <!-- Critical CSS -->
+    <style>
+      :root {
+        --snow: #F7FAFC;
+        --emerald: #059669;
+        --tangerine: #F97316;
+        --indigo: #1E3A8A;
+        --charcoal: #1F2937;
+      }
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: var(--snow);
+        color: var(--charcoal);
+        margin: 0;
+      }
+      .hero-bg {
+        background: linear-gradient(rgba(247, 250, 252, 0.9), rgba(247, 250, 252, 0.9)), url('assets/svgs/eco-hero.svg');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+      }
+      #loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+      }
+    </style>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="spinner-border text-emerald d-none" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky-top bg-indigo text-snow shadow-sm" id="main-nav">
+      <div class="container py-2">
+        <div class="d-flex align-items-center justify-content-between">
+          <a class="navbar-brand d-flex align-items-center" href="#home">
+            <img src="assets/svgs/logo.svg" alt="EcoShop Logo" class="w-10 h-10 me-2" />
+            <span class="text-2xl font-poppins">EcoShop</span>
+          </a>
+          <div class="flex-grow-1 mx-4">
+            <div class="input-group">
+              <span class="input-group-text bg-snow"><i class="fas fa-search text-charcoal"></i></span>
+              <input type="text" id="search-input" class="form-control" placeholder="Search eco-friendly products..." />
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <div class="dropdown">
+              <a href="#" class="nav-icon dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="fas fa-user text-snow"></i>
+                <span id="user-name" class="ms-1 d-none"></span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end bg-snow">
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#auth-modal">Login/Signup</a></li>
+                <li><a class="dropdown-item d-none" id="profile-link" href="#profile">Profile</a></li>
+                <li><a class="dropdown-item d-none" id="admin-link" href="#admin">Admin Dashboard</a></li>
+                <li><a class="dropdown-item d-none" id="logout-link" href="#">Logout</a></li>
+              </ul>
+            </div>
+            <a href="#wishlist" class="nav-icon position-relative" data-bs-toggle="offcanvas" data-bs-target="#wishlist-offcanvas">
+              <i class="far fa-heart text-snow"></i>
+              <span id="wishlist-count" class="badge bg-tangerine text-snow">0</span>
+            </a>
+            <a href="#cart" class="nav-icon position-relative" data-bs-toggle="offcanvas" data-bs-target="#cart-offcanvas">
+              <i class="fas fa-shopping-cart text-snow"></i>
+              <span id="cart-count" class="badge bg-tangerine text-snow">0</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <nav class="bg-snow py-2 shadow-sm">
+        <div class="container d-flex justify-content-center gap-4">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#products" class="nav-link">Shop</a>
+          <a href="#categories" class="nav-link">Categories</a>
+          <a href="#deals" class="nav-link">Deals</a>
+          <a href="#orders" class="nav-link">Track Orders</a>
+          <a href="#about" class="nav-link">About</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Auth Modal -->
+    <div class="modal fade" id="auth-modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-snow border-0 rounded-3">
+          <div class="modal-header border-0">
+            <h5 class="modal-title font-poppins text-indigo">Welcome</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="nav nav-tabs mb-4">
+              <li class="nav-item">
+                <a class="nav-link active text-indigo" data-bs-toggle="tab" href="#login">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-indigo" data-bs-toggle="tab" href="#signup">Sign Up</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade show active" id="login">
+                <form id="login-form">
+                  <input type="email" class="form-control mb-3 rounded-pill" placeholder="Email" required />
+                  <input type="password" class="form-control mb-3 rounded-pill" placeholder="Password" required />
+                  <button type="submit" class="btn btn-emerald w-100 rounded-pill">Login</button>
+                </form>
+              </div>
+              <div class="tab-pane fade" id="signup">
+                <form id="signup-form">
+                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="Full Name" required />
+                  <input type="email" class="form-control mb-3 rounded-pill" placeholder="Email" required />
+                  <input type="password" class="form-control mb-3 rounded-pill" placeholder="Password" required />
+                  <button type="submit" class="btn btn-emerald w-100 rounded-pill">Sign Up</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section id="home" class="hero-bg py-20 text-center">
+      <div class="container">
+        <h1 class="text-5xl font-poppins text-indigo mb-4" data-aos="fade-up">
+          Green Living, Made Simple
+        </h1>
+        <p class="text-xl text-charcoal max-w-2xl mx-auto mb-6" data-aos="fade-up" data-aos-delay="200">
+          Shop sustainable products with ease and style.
+        </p>
+        <a href="#products" class="btn btn-tangerine text-snow px-8 py-3 rounded-pill" data-aos="fade-up" data-aos-delay="400">
+          Shop Now
+        </a>
+      </div>
+    </section>
+
+    <!-- Categories Carousel -->
+    <section id="categories" class="py-12 bg-snow">
+      <div class="container">
+        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+          Shop by Category
+        </h2>
+        <div id="category-carousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row g-4">
+                <div class="col-4">
+                  <a href="#products" class="category-card bg-white p-4 rounded-lg text-center d-block">
+                    <img src="assets/svgs/personal-care.svg" alt="Personal Care" class="w-20 h-20 mx-auto mb-3" />
+                    <h5 class="font-poppins text-emerald">Personal Care</h5>
+                  </a>
+                </div>
+                <div class="col-4">
+                  <a href="#products" class="category-card bg-white p-4 rounded-lg text-center d-block">
+                    <img src="assets/svgs/home-goods.svg" alt="Home Goods" class="w-20 h-20 mx-auto mb-3" />
+                    <h5 class="font-poppins text-emerald">Home Goods</h5>
+                  </a>
+                </div>
+                <div class="col-4">
+                  <a href="#products" class="category-card bg-white p-4 rounded-lg text-center d-block">
+                    <img src="assets/svgs/accessories.svg" alt="Accessories" class="w-20 h-20 mx-auto mb-3" />
+                    <h5 class="font-poppins text-emerald">Accessories</h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="row g-4">
+                <div class="col-4">
+                  <a href="#products" class="category-card bg-white p-4 rounded-lg text-center d-block">
+                    <img src="assets/svgs/electronics.svg" alt="Electronics" class="w-20 h-20 mx-auto mb-3" />
+                    <h5 class="font-poppins text-emerald">Electronics</h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#category-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#category-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Deals -->
+    <section id="deals" class="py-12 bg-white">
+      <div class="container">
+        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+          Eco Deals
+        </h2>
+        <div id="deals-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"></div>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="py-12 bg-snow">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-3">
+            <div class="card bg-white p-4 rounded-lg sticky-top" style="top: 100px;">
+              <h5 class="font-poppins text-indigo mb-4">Filters</h5>
+              <div class="mb-4">
+                <h6 class="text-charcoal">Category</h6>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="category" id="cat-all" value="all" checked />
+                  <label class="form-check-label" for="cat-all">All</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="category" id="cat-personal" value="personal" />
+                  <label class="form-check-label" for="cat-personal">Personal Care</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="category" id="cat-home" value="home" />
+                  <label class="form-check-label" for="cat-home">Home Goods</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="category" id="cat-accessories" value="accessories" />
+                  <label class="form-check-label" for="cat-accessories">Accessories</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="category" id="cat-electronics" value="electronics" />
+                  <label class="form-check-label" for="cat-electronics">Electronics</label>
+                </div>
+              </div>
+              <div>
+                <h6 class="text-charcoal">Price</h6>
+                <input type="range" id="price-filter" class="form-range" min="0" max="5000" value="5000" />
+                <span id="price-value" class="text-sm text-charcoal">Up to ₹5000</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+              All Products
+            </h2>
+            <div class="mb-4 d-flex gap-3">
+              <select id="sort-filter" class="form-select rounded-pill w-auto">
+                <option value="relevance">Relevance</option>
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="price-asc">Price (Low to High)</option>
+                <option value="price-desc">Price (High to Low)</option>
+              </select>
+              <button class="btn btn-outline-emerald rounded-pill" data-bs-toggle="modal" data-bs-target="#compare-modal">
+                Compare (<span id="compare-count">0</span>)
+              </button>
+            </div>
+            <div id="product-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick View Modal -->
+    <div class="modal fade" id="quick-view-modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-snow rounded-3">
+          <div class="modal-header border-0">
+            <h5 class="modal-title font-poppins text-indigo" id="quick-view-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <div class="position-relative zoom-container">
+                  <img id="quick-view-image" class="w-100 rounded-lg" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <p id="quick-view-price" class="text-tangerine font-semibold text-xl"></p>
+                <p id="quick-view-category" class="text-charcoal"></p>
+                <div id="quick-view-rating" class="mb-3"></div>
+                <div class="mb-3">
+                  <label class="form-label">Size</label>
+                  <select id="quick-view-size" class="form-select rounded-pill">
+                    <option value="default">Select Size</option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Color</label>
+                  <select id="quick-view-color" class="form-select rounded-pill">
+                    <option value="default">Select Color</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="natural">Natural</option>
+                  </select>
+                </div>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-emerald rounded-pill" id="quick-view-cart">Add to Cart</button>
+                  <button class="btn btn-outline-emerald rounded-pill" id="quick-view-wishlist">Wishlist</button>
+                  <button class="btn btn-outline-tangerine rounded-pill" id="quick-view-compare">Compare</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compare Modal -->
+    <div class="modal fade" id="compare-modal" tabindex="-1">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content bg-snow rounded-3">
+          <div class="modal-header border-0">
+            <h5 class="modal-title font-poppins text-indigo">Compare Products</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div id="compare-table" class="row g-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Offcanvas -->
+    <div class="offcanvas offcanvas-end bg-snow" tabindex="-1" id="cart-offcanvas">
+      <div class="offcanvas-header bg-indigo text-snow">
+        <h5 class="offcanvas-title font-poppins">Your Cart</h5>
+        <button type="button" class="btn-close text-snow" data-bs-dismiss="offcanvas"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div id="cart-items" class="space-y-4"></div>
+        <p id="cart-total" class="text-lg font-semibold text-tangerine mt-6">Total: ₹0</p>
+        <button class="btn btn-emerald w-100 mt-4 rounded-pill" onclick="openCheckout()">Checkout</button>
+      </div>
+    </div>
+
+    <!-- Wishlist Offcanvas -->
+    <div class="offcanvas offcanvas-end bg-snow" tabindex="-1" id="wishlist-offcanvas">
+      <div class="offcanvas-header bg-indigo text-snow">
+        <h5 class="offcanvas-title font-poppins">Your Wishlist</h5>
+        <button type="button" class="btn-close text-snow" data-bs-dismiss="offcanvas"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div id="wishlist-items" class="space-y-4"></div>
+      </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal fade" id="checkout-modal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-snow rounded-3">
+          <div class="modal-header border-0">
+            <h5 class="modal-title font-poppins text-indigo">Checkout</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row g-4">
+              <div class="col-md-6">
+                <h6 class="font-poppins text-indigo">Shipping</h6>
+                <form id="checkout-form">
+                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="Full Name" required />
+                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="Address" required />
+                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="City" required />
+                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="Postal Code" required />
+                </form>
+              </div>
+              <div class="col-md-6">
+                <h6 class="font-poppins text-indigo">Payment</h6>
+                <input type="text" class="form-control mb-3 rounded-pill" placeholder="Card Number" required />
+                <div class="row g-3">
+                  <div class="col">
+                    <input type="text" class="form-control rounded-pill" placeholder="Expiry" required />
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control rounded-pill" placeholder="CVV" required />
+                  </div>
+                </div>
+                <p class="text-charcoal mt-3">Estimated Delivery: <span id="est-delivery"></span></p>
+                <p class="text-tangerine font-semibold mt-2">Total: <span id="checkout-total">₹0</span></p>
+                <button type="submit" class="btn btn-emerald w-100 mt-4 rounded-pill" onclick="$('#checkout-form').submit()">Place Order</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile -->
+    <section id="profile" class="py-12 bg-snow d-none">
+      <div class="container">
+        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+          Your Profile
+        </h2>
+        <div class="card bg-white p-4 max-w-md mx-auto rounded-lg">
+          <form id="profile-form">
+            <input type="text" class="form-control mb-3 rounded-pill" placeholder="Full Name" required />
+            <input type="email" class="form-control mb-3 rounded-pill" placeholder="Email" required />
+            <button type="submit" class="btn btn-emerald w-100 rounded-pill">Save</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin" class="py-12 bg-snow d-none">
+      <div class="container">
+        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+          Admin Dashboard
+        </h2>
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card bg-white p-4 rounded-lg">
+              <h5 class="font-poppins text-indigo">Add Product</h5>
+              <form id="add-product-form">
+                <input type="text" class="form-control mb-3 rounded-pill" placeholder="Product Name" required />
+                <input type="number" class="form-control mb-3 rounded-pill" placeholder="Price (₹)" step="1" required />
+                <select class="form-select mb-3 rounded-pill" required>
+                  <option value="" disabled selected>Category</option>
+                  <option value="personal">Personal Care</option>
+                  <option value="home">Home Goods</option>
+                  <option value="accessories">Accessories</option>
+                  <option value="electronics">Electronics</option>
+                </select>
+                <input type="file" class="form-control mb-3 rounded-pill" accept="image/*" />
+                <button type="submit" class="btn btn-emerald w-100 rounded-pill">Add</button>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card bg-white p-4 rounded-lg">
+              <h5 class="font-poppins text-indigo">Inventory</h5>
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="inventory-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Tracking -->
+    <section id="orders" class="py-12 bg-white">
+      <div class="container">
+        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+          Track Your Order
+        </h2>
+        <div class="card bg-snow p-4 max-w-lg mx-auto rounded-lg">
+          <div class="input-group mb-3">
+            <input type="text" id="order-id" class="form-control rounded-pill" placeholder="Enter Order ID" />
+            <button class="btn btn-emerald rounded-pill" onclick="trackOrder()">Track</button>
+          </div>
+          <div id="order-status" class="mt-4"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recently Viewed -->
+    <section id="recently-viewed" class="py-12 bg-snow">
+      <div class="container">
+        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+          Recently Viewed
+        </h2>
+        <div id="recent-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"></div>
+      </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section id="recommendations" class="py-12 bg-white">
+      <div class="container">
+        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+          Recommended for You
+        </h2>
+        <div id="recommendation-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"></div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-12 bg-snow">
+      <div class="container text-center">
+        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
+          About EcoShop
+        </h2>
+        <p class="text-lg text-charcoal max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+          EcoShop: Pro Edition brings sustainable shopping to India with eco-friendly products that blend innovation and responsibility.
+        </p>
+        <img src="assets/svgs/sustainability.svg" alt="Sustainability" class="w-48 h-48 mx-auto mt-6" data-aos="zoom-in" />
+      </div>
+    </section>
+
+    <!-- Newsletter Popup -->
+    <div class="modal fade" id="newsletter-popup" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-snow rounded-3">
+          <div class="modal-header border-0">
+            <h5 class="modal-title font-poppins text-indigo">Join Our Eco Journey</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <form id="newsletter-form">
+              <div class="input-group">
+                <input type="email" class="form-control rounded-pill" placeholder="Your Email" required />
+                <button type="submit" class="btn btn-tangerine rounded-pill">Subscribe</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-indigo text-snow py-12">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <h5 class="font-poppins mb-4">EcoShop</h5>
+            <p class="text-snow/80">Green today, thriving tomorrow.</p>
+            <form id="footer-newsletter" class="mt-4">
+              <div class="input-group">
+                <input type="email" class="form-control rounded-pill" placeholder="Get updates" />
+                <button type="submit" class="btn btn-tangerine rounded-pill">Go</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-2">
+            <h5 class="font-poppins mb-4">Shop</h5>
+            <ul class="list-unstyled">
+              <li><a href="#products" class="text-snow/80 hover:text-tangerine">Products</a></li>
+              <li><a href="#categories" class="text-snow/80 hover:text-tangerine">Categories</a></li>
+              <li><a href="#deals" class="text-snow/80 hover:text-tangerine">Deals</a></li>
+            </ul>
+          </div>
+          <div class="col-md-2">
+            <h5 class="font-poppins mb-4">Support</h5>
+            <ul class="list-unstyled">
+              <li><a href="#orders" class="text-snow/80 hover:text-tangerine">Track Orders</a></li>
+              <li><a href="#about" class="text-snow/80 hover:text-tangerine">About Us</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5 class="font-poppins mb-4">Connect</h5>
+            <div class="d-flex gap-3">
+              <a href="#" class="text-snow/80 hover:text-tangerine"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-snow/80 hover:text-tangerine"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-snow/80 hover:text-tangerine"><i class="fab fa-facebook"></i></a>
+            </div>
+          </div>
+        </div>
+        <p class="text-center text-snow/80 mt-6">© 2025 EcoShop: Pro Edition</p>
+      </div>
+    </footer>
+
+    <!-- Sticky Cart Button -->
+    <div id="sticky-cart" class="position-fixed bottom-4 end-4 bg-emerald text-snow p-3 rounded-pill shadow-lg d-none">
+      <i class="fas fa-shopping-cart me-2"></i>
+      <span id="sticky-cart-count">0</span> Items
+      <span id="sticky-cart-total" class="ms-2">₹0</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
