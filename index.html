@@ -27,11 +27,6 @@
       <span class="sr-only">Loading...</span>
     </div>
 
-    <!-- Dark Mode Toggle -->
-    <button id="dark-mode-toggle" class="fixed top-4 right-4 p-3 bg-gray-200 dark:bg-gray-700 rounded-full z-50 hover:scale-110 transition-transform" aria-label="Toggle dark mode">
-      <i class="fas fa-moon text-gray-800 dark:text-yellow-300"></i>
-    </button>
-
     <!-- Header -->
     <header class="sticky top-0 bg-indigo-900 dark:bg-indigo-950 text-white shadow-lg z-40">
       <nav class="container mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
@@ -49,9 +44,8 @@
             <i class="fas fa-bars text-2xl"></i>
           </button>
           <div class="dropdown relative">
-            <a class="flex items-center gap-2 text-white hover:text-tangerine-400 transition-colors" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="btn-icon flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-full w-10 h-10 hover:scale-110 transition-transform" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="User profile">
               <i class="fas fa-user text-xl"></i>
-              <span id="user-name" class="hidden"></span>
             </a>
             <ul class="dropdown-menu absolute right-0 mt-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-xl shadow-lg w-48">
               <li><a class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" href="#" data-bs-toggle="modal" data-bs-target="#auth-modal">Login/Signup</a></li>
@@ -60,14 +54,17 @@
               <li><a class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 hidden" id="logout-link" href="#">Logout</a></li>
             </ul>
           </div>
-          <a class="relative flex items-center" href="#wishlist" data-bs-toggle="offcanvas" data-bs-target="#wishlist-offcanvas" aria-controls="wishlist-offcanvas">
-            <i class="far fa-heart text-xl hover:scale-110 transition-transform"></i>
+          <a class="btn-icon relative flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-full w-10 h-10 hover:scale-110 transition-transform" href="#wishlist" data-bs-toggle="offcanvas" data-bs-target="#wishlist-offcanvas" aria-controls="wishlist-offcanvas">
+            <i class="far fa-heart text-xl"></i>
             <span id="wishlist-count" class="absolute -top-2 -right-2 bg-tangerine-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
           </a>
-          <a class="relative flex items-center" href="#cart" data-bs-toggle="offcanvas" data-bs-target="#cart-offcanvas" aria-controls="cart-offcanvas">
-            <i class="fas fa-shopping-cart text-xl hover:scale-110 transition-transform"></i>
+          <a class="btn-icon relative flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-full w-10 h-10 hover:scale-110 transition-transform" href="#cart" data-bs-toggle="offcanvas" data-bs-target="#cart-offcanvas" aria-controls="cart-offcanvas">
+            <i class="fas fa-shopping-cart text-xl"></i>
             <span id="cart-count" class="absolute -top-2 -right-2 bg-tangerine-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
           </a>
+          <button id="dark-mode-toggle" class="btn-icon flex items-center justify-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-full w-10 h-10 hover:scale-110 transition-transform" aria-label="Toggle dark mode">
+            <i class="fas fa-moon text-xl dark:text-yellow-300"></i>
+          </button>
         </div>
       </nav>
       <div class="collapse bg-gray-100 dark:bg-gray-800" id="navbarContent">
@@ -90,7 +87,7 @@
       <div class="modal-dialog modal-dialog-centered max-w-md">
         <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
           <div class="modal-header border-0 p-6">
-            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="auth-modal-title">Welcome to EcoShop</h5>
+            <h5 class="text-2xl font-poppins font-bold text-indigo-900 dark:text-indigo-200" id="auth-modal-title">Welcome to EcoShop</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body p-6">
@@ -107,11 +104,11 @@
                 <form id="login-form">
                   <div class="mb-4">
                     <input type="email" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Email" required aria-describedby="login-email-error" />
-                    <div id="login-email-error" class="invalid-feedback text-red-500 text-sm mt-1">Please enter a valid email.</div>
+                    <div id="login-email-error" class="invalid-feedback text-red-500 text-sm mt-1 hidden">Please enter a valid email.</div>
                   </div>
                   <div class="mb-4">
                     <input type="password" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Password" required aria-describedby="login-password-error" />
-                    <div id="login-password-error" class="invalid-feedback text-red-500 text-sm mt-1">Password is required.</div>
+                    <div id="login-password-error" class="invalid-feedback text-red-500 text-sm mt-1 hidden">Password is required.</div>
                   </div>
                   <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105">Login</button>
                 </form>
@@ -139,30 +136,38 @@
     <!-- Home Section -->
     <section id="home" class="hero-bg min-h-screen flex items-center text-center py-16 relative" data-parallax>
       <div class="container mx-auto max-w-7xl px-4 z-10">
-        <h1 class="text-5xl md:text-6xl font-poppins text-indigo-900 dark:text-indigo-200 mb-6 leading-tight" data-aos="fade-up">Green Living, Made Simple</h1>
+        <svg class="leaf-spinner absolute top-0 left-0 w-full h-full opacity-10" viewBox="0 0 200 200">
+          <path id="leaf-path" d="M100,20 C130,20 160,50 160,100 C160,150 130,180 100,180 C70,180 40,150 40,100 C40,50 70,20 100,20 Z" fill="none" />
+          <path class="leaf" d="M10,5 A5,5 0 0,1 10,15 C5,20 0,15 0,10 A5,5 0 0,1 10,5 Z" fill="#059669">
+            <animateMotion dur="10s" repeatCount="indefinite" rotate="auto">
+              <mpath xlink:href="#leaf-path" />
+            </animateMotion>
+          </path>
+        </svg>
+        <h1 class="text-5xl md:text-6xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-6 leading-tight text-shadow" data-aos="fade-up">Green Living, Made Simple</h1>
         <p class="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">Discover sustainable products crafted for a better tomorrow.</p>
-        <a href="#products" class="inline-block bg-tangerine-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-tangerine-600 transition-transform transform hover:scale-105 shadow-lg" data-aos="fade-up" data-aos-delay="400">Shop Now</a>
+        <a href="#products" class="inline-block bg-tangerine-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-tangerine-600 transition-transform transform hover:scale-105 shadow-lg gradient-border" data-aos="fade-up" data-aos-delay="400">Shop Now</a>
       </div>
     </section>
 
     <!-- Why Shop With Us -->
     <section id="why-shop" class="py-16 bg-white dark:bg-gray-800">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Why Shop With Us?</h2>
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-center text-shadow" data-aos="fade-up">Why Shop With Us?</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg gradient-border" data-aos="fade-up" data-aos-delay="100">
             <i class="fas fa-leaf text-4xl text-emerald-600 mb-4"></i>
-            <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Eco-Friendly</h3>
+            <h3 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-2">Eco-Friendly</h3>
             <p class="text-gray-600 dark:text-gray-400">Sustainable products to reduce your carbon footprint.</p>
           </div>
-          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg gradient-border" data-aos="fade-up" data-aos-delay="200">
             <i class="fas fa-truck text-4xl text-emerald-600 mb-4"></i>
-            <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Fast Delivery</h3>
+            <h3 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-2">Fast Delivery</h3>
             <p class="text-gray-600 dark:text-gray-400">Get your orders in days, not weeks.</p>
           </div>
-          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="300">
+          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg gradient-border" data-aos="fade-up" data-aos-delay="300">
             <i class="fas fa-shield-alt text-4xl text-emerald-600 mb-4"></i>
-            <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Trusted Quality</h3>
+            <h3 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-2">Trusted Quality</h3>
             <p class="text-gray-600 dark:text-gray-400">High-quality products you can rely on.</p>
           </div>
         </div>
@@ -172,23 +177,23 @@
     <!-- Featured Product -->
     <section id="featured" class="py-16 bg-emerald-50 dark:bg-gray-800">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Featured Product</h2>
-        <div class="swiper-container">
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-center text-shadow" data-aos="fade-up">Featured Product</h2>
+        <div class="swiper featured-swiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <div class="bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg text-center">
+              <div class="bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg text-center gradient-border">
                 <img src="assets/svgs/toothbrush.svg" alt="Bamboo Toothbrush" class="w-32 h-32 mx-auto mb-6" loading="lazy" />
-                <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Bamboo Toothbrush</h3>
-                <p class="text-emerald-600 dark:text-emerald-400 text-lg font-semibold">₹425</p>
-                <a href="#products" class="mt-4 inline-block bg-tangerine-500 text-white px-6 py-2 rounded-full hover:bg-tangerine-600">Shop Now</a>
+                <h3 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-2">Bamboo Toothbrush</h3>
+                <p class="text-amber-500 dark:text-amber-400 text-lg font-semibold">₹425</p>
+                <a href="#products" class="mt-4 inline-block bg-tangerine-500 text-white px-6 py-2 rounded-full hover:bg-tangerine-600 gradient-border">Shop Now</a>
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg text-center">
+              <div class="bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg text-center gradient-border">
                 <img src="assets/svgs/tote-bag.svg" alt="Organic Cotton Tote Bag" class="w-32 h-32 mx-auto mb-6" loading="lazy" />
-                <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Organic Cotton Tote Bag</h3>
-                <p class="text-emerald-600 dark:text-emerald-400 text-lg font-semibold">₹1700</p>
-                <a href="#products" class="mt-4 inline-block bg-tangerine-500 text-white px-6 py-2 rounded-full hover:bg-tangerine-600">Shop Now</a>
+                <h3 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-2">Organic Cotton Tote Bag</h3>
+                <p class="text-amber-500 dark:text-amber-400 text-lg font-semibold">₹1700</p>
+                <a href="#products" class="mt-4 inline-block bg-tangerine-500 text-white px-6 py-2 rounded-full hover:bg-tangerine-600 gradient-border">Shop Now</a>
               </div>
             </div>
           </div>
@@ -201,36 +206,37 @@
     <!-- Categories -->
     <section id="categories" class="py-16 bg-white dark:bg-gray-800">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Shop by Category</h2>
-        <div id="category-carousel" class="swiper-container">
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-center text-shadow" data-aos="fade-up">Shop by Category</h2>
+        <div class="swiper category-swiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <a href="#products?category=personal" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105" data-aos="fade-up">
+              <a href="#products?category=personal" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105 gradient-border" data-aos="fade-up">
                 <img src="assets/svgs/personal-care.svg" alt="Personal Care" class="w-16 h-16 mx-auto mb-4" loading="lazy" />
-                <h5 class="text-lg font-poppins text-emerald-600 dark:text-emerald-400">Personal Care</h5>
+                <h5 class="text-lg font-poppins font-bold text-emerald-600 dark:text-emerald-400">Personal Care</h5>
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="#products?category=home" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105" data-aos="fade-up">
+              <a href="#products?category=home" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105 gradient-border" data-aos="fade-up">
                 <img src="assets/svgs/home-goods.svg" alt="Home Goods" class="w-16 h-16 mx-auto mb-4" loading="lazy" />
-                <h5 class="text-lg font-poppins text-emerald-600 dark:text-emerald-400">Home Goods</h5>
+                <h5 class="text-lg font-poppins font-bold text-emerald-600 dark:text-emerald-400">Home Goods</h5>
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="#products?category=accessories" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105" data-aos="fade-up">
+              <a href="#products?category=accessories" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105 gradient-border" data-aos="fade-up">
                 <img src="assets/svgs/accessories.svg" alt="Accessories" class="w-16 h-16 mx-auto mb-4" loading="lazy" />
-                <h5 class="text-lg font-poppins text-emerald-600 dark:text-emerald-400">Accessories</h5>
+                <h5 class="text-lg font-poppins font-bold text-emerald-600 dark:text-emerald-400">Accessories</h5>
               </a>
             </div>
             <div class="swiper-slide">
-              <a href="#products?category=electronics" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105" data-aos="fade-up">
+              <a href="#products?category=electronics" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105 gradient-border" data-aos="fade-up">
                 <img src="assets/svgs/electronics.svg" alt="Electronics" class="w-16 h-16 mx-auto mb-4" loading="lazy" />
-                <h5 class="text-lg font-poppins text-emerald-600 dark:text-emerald-400">Electronics</h5>
+                <h5 class="text-lg font-poppins font-bold text-emerald-600 dark:text-emerald-400">Electronics</h5>
               </a>
             </div>
           </div>
           <div class="swiper-button-prev"></div>
           <div class="swiper-button-next"></div>
+          <div class="scroll-indicator text-center mt-4 text-gray-600 dark:text-gray-400 text-sm">Drag to explore categories</div>
         </div>
       </div>
     </section>
@@ -238,7 +244,7 @@
     <!-- Deals -->
     <section id="deals" class="py-16 bg-gray-100 dark:bg-gray-900">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Eco Deals</h2>
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-center text-shadow" data-aos="fade-up">Eco Deals</h2>
         <div id="deals-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
       </div>
     </section>
@@ -249,42 +255,47 @@
         <div class="flex flex-col lg:flex-row gap-8">
           <aside class="lg:w-1/4">
             <div class="sticky top-24 bg-emerald-50 dark:bg-gray-700 p-6 rounded-xl shadow-lg glass">
-              <h5 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-6">Filters</h5>
-              <div class="mb-6">
-                <h6 class="text-lg text-gray-700 dark:text-gray-300 mb-3">Category</h6>
-                <div class="space-y-2">
-                  <div class="flex items-center">
-                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-all" value="all" checked />
-                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-all">All</label>
-                  </div>
-                  <div class="flex items-center">
-                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-personal" value="personal" />
-                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-personal">Personal Care</label>
-                  </div>
-                  <div class="flex items-center">
-                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-home" value="home" />
-                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-home">Home Goods</label>
-                  </div>
-                  <div class="flex items-center">
-                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-accessories" value="accessories" />
-                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-accessories">Accessories</label>
-                  </div>
-                  <div class="flex items-center">
-                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-electronics" value="electronics" />
-                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-electronics">Electronics</label>
+              <button class="lg:hidden w-full bg-emerald-600 text-white p-3 rounded-full mb-4 flex items-center justify-between" id="filter-toggle">
+                Filters <i class="fas fa-chevron-down"></i>
+              </button>
+              <div id="filter-content" class="lg:block">
+                <h5 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-6">Filters</h5>
+                <div class="mb-6">
+                  <h6 class="text-lg text-gray-700 dark:text-gray-300 mb-3">Category</h6>
+                  <div class="space-y-2">
+                    <div class="flex items-center">
+                      <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-all" value="all" checked />
+                      <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-all">All</label>
+                    </div>
+                    <div class="flex items-center">
+                      <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-personal" value="personal" />
+                      <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-personal">Personal Care</label>
+                    </div>
+                    <div class="flex items-center">
+                      <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-home" value="home" />
+                      <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-home">Home Goods</label>
+                    </div>
+                    <div class="flex items-center">
+                      <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-accessories" value="accessories" />
+                      <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-accessories">Accessories</label>
+                    </div>
+                    <div class="flex items-center">
+                      <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-electronics" value="electronics" />
+                      <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-electronics">Electronics</label>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div>
-                <h6 class="text-lg text-gray-700 dark:text-gray-300 mb-3">Price Range</h6>
-                <input type="range" id="price-filter" class="w-full accent-emerald-600" min="0" max="5000" value="5000" />
-                <span id="price-value" class="block text-sm text-gray-600 dark:text-gray-400 mt-2">Up to ₹5000</span>
+                <div>
+                  <h6 class="text-lg text-gray-700 dark:text-gray-300 mb-3">Price Range</h6>
+                  <input type="range" id="price-filter" class="w-full accent-emerald-600" min="0" max="5000" value="5000" />
+                  <span id="price-value" class="block text-sm text-gray-600 dark:text-gray-400 mt-2">Up to ₹5000</span>
+                </div>
               </div>
             </div>
           </aside>
           <div class="lg:w-3/4">
             <div class="flex justify-between items-center mb-8">
-              <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200" data-aos="fade-up">All Products</h2>
+              <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 text-shadow" data-aos="fade-up">All Products</h2>
               <div class="flex gap-4">
                 <select id="sort-filter" class="p-3 rounded-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white" aria-label="Sort products">
                   <option value="relevance">Sort by: Relevance</option>
@@ -293,7 +304,7 @@
                   <option value="price-asc">Price (Low to High)</option>
                   <option value="price-desc">Price (High to Low)</option>
                 </select>
-                <button class="flex items-center gap-1 bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105" data-bs-toggle="modal" data-bs-target="#compare-modal">
+                <button class="flex items-center gap-1 bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 gradient-border" data-bs-toggle="modal" data-bs-target="#compare-modal">
                   Compare <span id="compare-count">0</span>
                 </button>
               </div>
@@ -307,9 +318,9 @@
     <!-- Quick View Modal -->
     <div class="modal fade" id="quick-view-modal" tabindex="-1" aria-labelledby="quick-view-title" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg max-w-4xl">
-        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl gradient-border">
           <div class="modal-header border-0 p-6">
-            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="quick-view-title"></h5>
+            <h5 class="text-2xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 text-shadow" id="quick-view-title"></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body p-6">
@@ -318,7 +329,7 @@
                 <img id="quick-view-image" class="w-full h-80 object-contain transition-transform duration-300" alt="Product image" loading="lazy" />
               </div>
               <div>
-                <p id="quick-view-price" class="text-2xl font-semibold text-tangerine-500 mb-3"></p>
+                <p id="quick-view-price" class="text-2xl font-semibold text-amber-500 dark:text-amber-400 mb-3"></p>
                 <p id="quick-view-category" class="text-gray-600 dark:text-gray-400 mb-3"></p>
                 <div id="quick-view-rating" class="mb-4 flex items-center gap-1"></div>
                 <div class="mb-4">
@@ -340,11 +351,11 @@
                   </select>
                 </div>
                 <div class="flex gap-3">
-                  <button class="flex-1 bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 btn-glow" id="quick-view-cart">Add to Cart</button>
-                  <button class="p-3 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-tangerine-500 hover:text-white transition-transform transform hover:scale-110" id="quick-view-wishlist">
+                  <button class="flex-1 bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 gradient-border" id="quick-view-cart">Add to Cart</button>
+                  <button class="btn-icon p-3 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-tangerine-500 hover:text-white transition-transform transform hover:scale-110 gradient-border" id="quick-view-wishlist">
                     <i class="far fa-heart"></i>
                   </button>
-                  <button class="p-3 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-tangerine-500 hover:text-white transition-transform transform hover:scale-110" id="quick-view-compare">
+                  <button class="btn-icon p-3 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-tangerine-500 hover:text-white transition-transform transform hover:scale-110 gradient-border" id="quick-view-compare">
                     <i class="fas fa-exchange-alt"></i>
                   </button>
                 </div>
@@ -358,9 +369,9 @@
     <!-- Compare Modal -->
     <div class="modal fade" id="compare-modal" tabindex="-1" aria-labelledby="compare-modal-title" aria-hidden="true">
       <div class="modal-dialog modal-xl">
-        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl gradient-border">
           <div class="modal-header border-0 p-6">
-            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="compare-modal-title">Compare Products</h5>
+            <h5 class="text-2xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 text-shadow" id="compare-modal-title">Compare Products</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body p-6">
@@ -373,7 +384,7 @@
     <!-- Cart Offcanvas -->
     <div class="offcanvas offcanvas-end bg-white dark:bg-gray-800 w-96 max-w-[90%]" tabindex="-1" id="cart-offcanvas" aria-labelledby="cart-offcanvas-title">
       <div class="offcanvas-header bg-indigo-900 dark:bg-indigo-950 text-white p-6">
-        <h5 class="text-xl font-poppins" id="cart-offcanvas-title">Your Cart</h5>
+        <h5 class="text-xl font-poppins font-bold text-shadow" id="cart-offcanvas-title">Your Cart</h5>
         <button type="button" class="text-white hover:text-tangerine-400" data-bs-dismiss="offcanvas" aria-label="Close">
           <i class="fas fa-times"></i>
         </button>
@@ -381,8 +392,8 @@
       <div class="offcanvas-body p-6">
         <div id="cart-items" class="space-y-4"></div>
         <div class="mt-6">
-          <p id="cart-total" class="text-xl font-semibold text-tangerine-500">Total: ₹0</p>
-          <button class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 mt-4" onclick="openCheckout()">Checkout</button>
+          <p id="cart-total" class="text-xl font-semibold text-amber-500 dark:text-amber-400">Total: ₹0</p>
+          <button class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 gradient-border" onclick="openCheckout()">Checkout</button>
         </div>
       </div>
     </div>
@@ -390,7 +401,7 @@
     <!-- Wishlist Offcanvas -->
     <div class="offcanvas offcanvas-end bg-white dark:bg-gray-800 w-96 max-w-[90%]" tabindex="-1" id="wishlist-offcanvas" aria-labelledby="wishlist-offcanvas-title">
       <div class="offcanvas-header bg-indigo-900 dark:bg-indigo-950 text-white p-6">
-        <h5 class="text-xl font-poppins" id="wishlist-offcanvas-title">Your Wishlist</h5>
+        <h5 class="text-xl font-poppins font-bold text-shadow" id="wishlist-offcanvas-title">Your Wishlist</h5>
         <button type="button" class="text-white hover:text-tangerine-400" data-bs-dismiss="offcanvas" aria-label="Close">
           <i class="fas fa-times"></i>
         </button>
@@ -403,15 +414,15 @@
     <!-- Checkout Modal -->
     <div class="modal fade" id="checkout-modal" tabindex="-1" aria-labelledby="checkout-modal-title" aria-hidden="true">
       <div class="modal-dialog modal-lg max-w-4xl">
-        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl gradient-border">
           <div class="modal-header border-0 p-6">
-            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="checkout-modal-title">Checkout</h5>
+            <h5 class="text-2xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 text-shadow" id="checkout-modal-title">Checkout</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <h6 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-4">Shipping Details</h6>
+                <h6 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-4 text-shadow">Shipping Details</h6>
                 <form id="checkout-form">
                   <div class="mb-4">
                     <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Full Name" required />
@@ -428,7 +439,7 @@
                 </form>
               </div>
               <div>
-                <h6 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-4">Payment Details</h6>
+                <h6 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-4 text-shadow">Payment Details</h6>
                 <div class="mb-4">
                   <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Card Number" required />
                 </div>
@@ -437,8 +448,8 @@
                   <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="CVV" required />
                 </div>
                 <p class="text-gray-600 dark:text-gray-400 mt-4">Estimated Delivery: <span id="est-delivery"></span></p>
-                <p class="text-tangerine-500 text-xl font-semibold mt-2">Total: <span id="checkout-total">₹0</span></p>
-                <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 mt-6" onclick="$('#checkout-form').submit()">Place Order</button>
+                <p class="text-amber-500 dark:text-amber-400 text-xl font-semibold mt-2">Total: <span id="checkout-total">₹0</span></p>
+                <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 gradient-border mt-6" onclick="$('#checkout-form').submit()">Place Order</button>
               </div>
             </div>
           </div>
@@ -449,15 +460,15 @@
     <!-- Profile -->
     <section id="profile" class="py-16 bg-gray-100 dark:bg-gray-900 hidden">
       <div class="container mx-auto max-w-lg px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-8 text-center" data-aos="fade-up">Your Profile</h2>
-        <form id="profile-form" class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass">
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-8 text-center text-shadow" data-aos="fade-up">Your Profile</h2>
+        <form id="profile-form" class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass gradient-border">
           <div class="mb-4">
             <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Full Name" required />
           </div>
           <div class="mb-4">
             <input type="email" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Email" required />
           </div>
-          <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105">Save Changes</button>
+          <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 gradient-border">Save Changes</button>
         </form>
       </div>
     </section>
@@ -465,11 +476,11 @@
     <!-- Admin Panel -->
     <section id="admin" class="py-16 bg-gray-100 dark:bg-gray-900 hidden">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Admin Dashboard</h2>
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-center text-shadow" data-aos="fade-up">Admin Dashboard</h2>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-1">
-            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass">
-              <h5 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-6">Add Product</h5>
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass gradient-border">
+              <h5 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-6 text-shadow">Add Product</h5>
               <form id="add-product-form">
                 <div class="mb-4">
                   <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Product Name" required />
@@ -489,13 +500,13 @@
                 <div class="mb-4">
                   <input type="file" class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" accept="image/*" />
                 </div>
-                <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105">Add Product</button>
+                <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 gradient-border">Add Product</button>
               </form>
             </div>
           </div>
           <div class="lg:col-span-2">
-            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass">
-              <h5 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-6">Inventory</h5>
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass gradient-border">
+              <h5 class="text-xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-6 text-shadow">Inventory</h5>
               <div class="overflow-x-auto">
                 <table class="w-full text-left">
                   <thead>
@@ -518,11 +529,11 @@
     <!-- Order Tracking -->
     <section id="orders" class="py-16 bg-white dark:bg-gray-800">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Track Your Order</h2>
-        <div class="max-w-md mx-auto bg-emerald-50 dark:bg-gray-700 p-8 rounded-xl shadow-lg glass">
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-center text-shadow" data-aos="fade-up">Track Your Order</h2>
+        <div class="max-w-md mx-auto bg-emerald-50 dark:bg-gray-700 p-8 rounded-xl shadow-lg glass gradient-border">
           <div class="flex gap-4">
             <input type="text" id="order-id" class="flex-1 p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Enter Order ID" aria-label="Order ID" />
-            <button class="bg-emerald-600 text-white px-6 py-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105" onclick="trackOrder()">Track</button>
+            <button class="bg-emerald-600 text-white px-6 py-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 gradient-border" onclick="trackOrder()">Track</button>
           </div>
           <div id="order-status" class="mt-6"></div>
         </div>
@@ -532,7 +543,7 @@
     <!-- Recently Viewed -->
     <section id="recently-viewed" class="py-16 bg-gray-100 dark:bg-gray-900">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Recently Viewed</h2>
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-center text-shadow" data-aos="fade-up">Recently Viewed</h2>
         <div id="recent-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
       </div>
     </section>
@@ -540,7 +551,7 @@
     <!-- Recommendations -->
     <section id="recommendations" class="py-16 bg-white dark:bg-gray-800">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Recommended for You</h2>
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-center text-shadow" data-aos="fade-up">Recommended for You</h2>
         <div id="recommendation-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
       </div>
     </section>
@@ -548,7 +559,7 @@
     <!-- About -->
     <section id="about" class="py-16 bg-gray-100 dark:bg-gray-900 text-center">
       <div class="container mx-auto max-w-7xl px-4">
-        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12" data-aos="fade-up">About EcoShop</h2>
+        <h2 class="text-4xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-12 text-shadow" data-aos="fade-up">About EcoShop</h2>
         <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="200">
           EcoShop: Pro Edition brings sustainable shopping to India with eco-friendly products that blend innovation and responsibility.
         </p>
@@ -559,16 +570,16 @@
     <!-- Newsletter Popup -->
     <div class="modal fade" id="newsletter-popup" tabindex="-1" aria-labelledby="newsletter-popup-title" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered max-w-md">
-        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl glass">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl glass gradient-border">
           <div class="modal-header border-0 p-6">
-            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="newsletter-popup-title">Join Our Eco Journey</h5>
+            <h5 class="text-2xl font-poppins font-bold text-indigo-900 dark:text-indigo-200 text-shadow" id="newsletter-popup-title">Join Our Eco Journey</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body p-6">
             <form id="newsletter-form">
               <div class="flex gap-4">
                 <input type="email" class="flex-1 p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Your Email" required aria-label="Email for newsletter" />
-                <button type="submit" class="bg-tangerine-500 text-white px-6 py-3 rounded-full hover:bg-tangerine-600 transition-transform transform hover:scale-105">Subscribe</button>
+                <button type="submit" class="bg-tangerine-500 text-white px-6 py-3 rounded-full hover:bg-tangerine-600 transition-transform transform hover:scale-105 gradient-border">Subscribe</button>
               </div>
             </form>
           </div>
@@ -577,40 +588,41 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-indigo-900 dark:bg-indigo-950 text-white py-16">
-      <div class="container mx-auto max-w-7xl px-4">
+    <footer class="bg-indigo-900 dark:bg-indigo-950 text-white py-16 relative overflow-hidden">
+      <div class="wave-bg"></div>
+      <div class="container mx-auto max-w-7xl px-4 relative z-10">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div>
-            <h5 class="text-2xl font-poppins mb-6">EcoShop</h5>
+            <h5 class="text-2xl font-poppins font-bold mb-6 text-shadow">EcoShop</h5>
             <p class="text-gray-300">Green today, thriving tomorrow.</p>
             <form id="footer-newsletter" class="mt-6">
               <div class="flex gap-4">
                 <input type="email" class="flex-1 p-3 rounded-full bg-gray-800 border border-gray-600 text-white" placeholder="Get updates" aria-label="Email for newsletter" />
-                <button type="submit" class="bg-tangerine-500 text-white px-6 py-3 rounded-full hover:bg-tangerine-600">Subscribe</button>
+                <button type="submit" class="bg-tangerine-500 text-white px-6 py-3 rounded-full hover:bg-tangerine-600 gradient-border">Subscribe</button>
               </div>
             </form>
           </div>
           <div>
-            <h5 class="text-2xl font-poppins mb-6">Shop</h5>
+            <h5 class="text-2xl font-poppins font-bold mb-6 text-shadow">Shop</h5>
             <ul class="space-y-2">
-              <li><a href="#products" class="text-gray-300 hover:text-tangerine-400">Products</a></li>
-              <li><a href="#categories" class="text-gray-300 hover:text-tangerine-400">Categories</a></li>
-              <li><a href="#deals" class="text-gray-300 hover:text-tangerine-400">Deals</a></li>
+              <li><a href="#products" class="text-gray-300 hover:text-amber-400">Products</a></li>
+              <li><a href="#categories" class="text-gray-300 hover:text-amber-400">Categories</a></li>
+              <li><a href="#deals" class="text-gray-300 hover:text-amber-400">Deals</a></li>
             </ul>
           </div>
           <div>
-            <h5 class="text-2xl font-poppins mb-6">Support</h5>
+            <h5 class="text-2xl font-poppins font-bold mb-6 text-shadow">Support</h5>
             <ul class="space-y-2">
-              <li><a href="#orders" class="text-gray-300 hover:text-tangerine-400">Track Orders</a></li>
-              <li><a href="#about" class="text-gray-300 hover:text-tangerine-400">About Us</a></li>
+              <li><a href="#orders" class="text-gray-300 hover:text-amber-400">Track Orders</a></li>
+              <li><a href="#about" class="text-gray-300 hover:text-amber-400">About Us</a></li>
             </ul>
           </div>
           <div>
-            <h5 class="text-2xl font-poppins mb-6">Connect</h5>
+            <h5 class="text-2xl font-poppins font-bold mb-6 text-shadow">Connect</h5>
             <div class="flex gap-4">
-              <a href="#" class="text-gray-300 hover:text-tangerine-400 text-2xl" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="text-gray-300 hover:text-tangerine-400 text-2xl" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="text-gray-300 hover:text-tangerine-400 text-2xl" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+              <a href="#" class="text-gray-300 hover:text-amber-400 text-2xl" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-300 hover:text-amber-400 text-2xl" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-300 hover:text-amber-400 text-2xl" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
             </div>
           </div>
         </div>
@@ -619,7 +631,7 @@
     </footer>
 
     <!-- Sticky Cart Button -->
-    <button id="sticky-cart" class="fixed bottom-6 right-6 bg-emerald-600 text-white py-3 px-6 rounded-full shadow-2xl hidden flex items-center gap-2 hover:scale-110 transition-transform btn-glow" aria-label="View cart">
+    <button id="sticky-cart" class="fixed bottom-6 right-6 bg-emerald-600 text-white py-3 px-6 rounded-full shadow-2xl hidden flex items-center gap-2 hover:scale-110 transition-transform gradient-border" aria-label="View cart">
       <i class="fas fa-shopping-cart"></i>
       <span id="sticky-cart-count">0</span> Items
       <span id="sticky-cart-total">₹0</span>
@@ -633,24 +645,5 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="js/script.js"></script>
-    <script>
-      // Initialize Swiper
-      new Swiper('.swiper-container', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-        breakpoints: {
-          640: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        },
-      });
-      // Parallax Effect
-      $(window).on('scroll', function() {
-        $('.hero-bg').css('background-position-y', window.scrollY * 0.3 + 'px');
-      });
-    </script>
   </body>
 </html>

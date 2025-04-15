@@ -21,16 +21,55 @@ $(document).ready(function () {
   // Initialize ScrollReveal
   ScrollReveal().reveal(".product-card", { delay: 200, distance: "20px", origin: "bottom", interval: 100 });
 
+  // Initialize Swiper for Featured and Categories
+  new Swiper(".featured-swiper", {
+    slidesPerView: 1,
+    spaceBetween: 20,
+    loop: true,
+    freeMode: true,
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      640: { slidesPerView: 2 },
+      1024: { slidesPerView: 3 },
+    },
+  });
+
+  new Swiper(".category-swiper", {
+    slidesPerView: 1.5,
+    spaceBetween: 20,
+    loop: true,
+    freeMode: true,
+    mousewheel: { forceToAxis: true },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    breakpoints: {
+      640: { slidesPerView: 2.5 },
+      1024: { slidesPerView: 4 },
+    },
+  });
+
   // Dark Mode
   $("#dark-mode-toggle").on("click", function () {
     $("html").toggleClass("dark");
     localStorage.setItem("darkMode", $("html").hasClass("dark"));
-    $("#dark-mode-toggle i").toggleClass("fa-moon fa-sun");
+    $(this).find("i").toggleClass("fa-moon fa-sun").toggleClass("text-gray-800 text-yellow-300");
+    gsap.from("body", { opacity: 0.8, duration: 0.3 });
   });
   if (localStorage.getItem("darkMode") === "true") {
     $("html").addClass("dark");
-    $("#dark-mode-toggle i").removeClass("fa-moon").addClass("fa-sun");
+    $("#dark-mode-toggle i").removeClass("fa-moon").addClass("fa-sun").addClass("text-yellow-300");
   }
+
+  // Filter Toggle for Mobile
+  $("#filter-toggle").on("click", function () {
+    $("#filter-content").slideToggle(300);
+    $(this).find("i").toggleClass("fa-chevron-down fa-chevron-up");
+  });
 
   // User Authentication
   $("#login-form").on("submit", function (e) {
@@ -42,9 +81,9 @@ $(document).ready(function () {
       localStorage.setItem("user", JSON.stringify(user));
       updateUserUI();
       $("#auth-modal").modal("hide");
-      gsap.from("#user-name", { opacity: 0, duration: 0.5 });
+      gsap.from(".dropdown", { opacity: 0, y: -10, duration: 0.5 });
     } else {
-      $(this).find(".invalid-feedback").show();
+      $(this).find(".invalid-feedback").removeClass("hidden");
     }
   });
 
@@ -58,7 +97,7 @@ $(document).ready(function () {
       localStorage.setItem("user", JSON.stringify(user));
       updateUserUI();
       $("#auth-modal").modal("hide");
-      gsap.from("#user-name", { opacity: 0, duration: 0.5 });
+      gsap.from(".dropdown", { opacity: 0, y: -10, duration: 0.5 });
     }
   });
 
@@ -66,19 +105,17 @@ $(document).ready(function () {
     user = null;
     localStorage.removeItem("user");
     updateUserUI();
+    gsap.from(".dropdown", { opacity: 0, duration: 0.3 });
   });
 
   function updateUserUI() {
     if (user) {
-      $("#user-name").text(user.name).removeClass("hidden");
       $("#profile-link, #logout-link").removeClass("hidden");
       if (user.role === "admin") {
         $("#admin-link").removeClass("hidden");
       }
-      $("#auth-modal").find(".nav-link").removeClass("active").first().addClass("active");
-      $("#auth-modal").find(".tab-pane").removeClass("show active").first().addClass("show active");
     } else {
-      $("#user-name, #profile-link, #admin-link, #logout-link").addClass("hidden");
+      $("#profile-link, #admin-link, #logout-link").addClass("hidden");
     }
   }
   updateUserUI();
@@ -115,48 +152,64 @@ $(document).ready(function () {
   $(window).on("scroll", function () {
     if ($(this).scrollTop() > 300 && cart.length > 0) {
       $("#sticky-cart").removeClass("hidden");
+      gsap.from("#sticky-cart", { opacity: 0, x: 20, duration: 0.3 });
     } else {
       $("#sticky-cart").addClass("hidden");
     }
+  });
+
+  // Parallax Effect
+  $(window).on("scroll", function () {
+    $(".hero-bg").css("background-position-y", window.scrollY * 0.3 + "px");
   });
 
   // Product Rendering
   function renderProducts(products = inventory, container = "#product-grid") {
     $(container).empty();
     if (!products.length) {
-      $(container).html('<p class="text-center text-gray-600 dark:text-gray-400 text-lg p-8 bg-gray-100 dark:bg-gray-700 rounded-xl">No items to show</p>');
+      $(container).html('<p class="text-center text-gray-600 dark:text-gray-400 text-lg p-8 bg-gray-100 dark:bg-gray-700 rounded-xl gradient-border">No items to show</p>');
       return;
     }
     products.forEach((product) => {
       const isWishlisted = wishlist.some((item) => item.id === product.id);
       const isCompared = compare.some((item) => item.id === product.id);
       const card = `
-        <div class="product-card bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105" data-id="${product.id}">
+        <div class="product-card bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105 gradient-border" data-id="${product.id}">
           <img src="${product.image}" alt="${product.name}" class="w-full h-32 object-contain mb-4" loading="lazy" />
-          <h5 class="font-poppins text-indigo-900 dark:text-indigo-200 mb-2 line-clamp-2 text-base">${product.name}</h5>
-          <p class="text-tangerine-500 font-semibold mb-2">₹${product.price.toLocaleString()}</p>
+          <h5 class="font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-2 line-clamp-2 text-base">${product.name}</h5>
+          <p class="text-amber-500 dark:text-amber-400 font-semibold mb-2">₹${product.price.toLocaleString()}</p>
           <div class="flex items-center gap-1 mb-4">
             ${'<i class="fas fa-star text-amber-400"></i>'.repeat(Math.floor(product.rating))}
             ${product.rating % 1 ? '<i class="fas fa-star-half-alt text-amber-400"></i>' : ''}
             <span class="text-gray-600 dark:text-gray-400 text-sm">(${product.rating})</span>
           </div>
           <div class="flex justify-center gap-2">
-            <button class="btn-icon bg-emerald-600 text-white rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform" onclick="addToCart(${product.id})" aria-label="Add to cart">
+            <button class="btn-icon bg-emerald-600 text-white rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform gradient-border" data-id="${product.id}" data-action="cart" aria-label="Add to cart">
               <i class="fas fa-cart-plus"></i>
             </button>
-            <button class="btn-icon bg-gray-200 dark:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform ${isWishlisted ? 'bg-tangerine-500 text-white' : ''}" onclick="toggleWishlist(${product.id})" aria-label="Toggle wishlist">
+            <button class="btn-icon rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform gradient-border ${isWishlisted ? 'bg-tangerine-500 text-white' : 'bg-gray-200 dark:bg-gray-700'}" data-id="${product.id}" data-action="wishlist" aria-label="Toggle wishlist">
               <i class="far fa-heart"></i>
             </button>
-            <button class="btn-icon bg-gray-200 dark:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform ${isCompared ? 'bg-tangerine-500 text-white' : ''}" onclick="toggleCompare(${product.id})" aria-label="Toggle compare">
+            <button class="btn-icon rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform gradient-border ${isCompared ? 'bg-tangerine-500 text-white' : 'bg-gray-200 dark:bg-gray-700'}" data-id="${product.id}" data-action="compare" aria-label="Toggle compare">
               <i class="fas fa-exchange-alt"></i>
             </button>
-            <button class="btn-icon bg-gray-200 dark:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform" onclick="showQuickView(${product.id})" aria-label="Quick view">
+            <button class="btn-icon bg-gray-200 dark:bg-gray-700 rounded-full w-10 h-10 flex items-center justify-center hover:scale-110 transition-transform gradient-border" data-id="${product.id}" data-action="quick-view" aria-label="Quick view">
               <i class="fas fa-eye"></i>
             </button>
           </div>
         </div>
       `;
       $(container).append(card);
+    });
+    // Bind Button Events
+    $(container).find(".btn-icon").off("click").on("click", function () {
+      const id = parseInt($(this).data("id"));
+      const action = $(this).data("action");
+      if (action === "cart") addToCart(id);
+      else if (action === "wishlist") toggleWishlist(id);
+      else if (action === "compare") toggleCompare(id);
+      else if (action === "quick-view") showQuickView(id);
+      gsap.from(this, { scale: 1.3, duration: 0.2 });
     });
     AOS.refresh();
     ScrollReveal().sync();
@@ -212,7 +265,7 @@ $(document).ready(function () {
   function renderCart() {
     $("#cart-items").empty();
     if (!cart.length) {
-      $("#cart-items").html('<p class="text-center text-gray-600 dark:text-gray-400 text-lg p-8 bg-gray-100 dark:bg-gray-700 rounded-xl">Your cart is empty</p>');
+      $("#cart-items").html('<p class="text-center text-gray-600 dark:text-gray-400 text-lg p-8 bg-gray-100 dark:bg-gray-700 rounded-xl gradient-border">Your cart is empty</p>');
       $("#cart-total").text("Total: ₹0");
       $("#cart-count").text("0");
       return;
@@ -222,18 +275,18 @@ $(document).ready(function () {
       const itemTotal = item.price * item.quantity;
       total += itemTotal;
       const cartItem = `
-        <div class="cart-item flex gap-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-xl" data-id="${item.id}-${item.size}-${item.color}">
+        <div class="cart-item flex gap-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-xl gradient-border" data-id="${item.id}-${item.size}-${item.color}">
           <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-contain rounded-lg" loading="lazy" />
           <div class="flex-1">
-            <h6 class="font-poppins text-indigo-900 dark:text-indigo-200">${item.name}</h6>
+            <h6 class="font-poppins font-bold text-indigo-900 dark:text-indigo-200">${item.name}</h6>
             <p class="text-gray-600 dark:text-gray-400 text-sm">₹${item.price.toLocaleString()} | ${item.size} | ${item.color}</p>
             <div class="flex items-center gap-2 mt-2">
-              <button class="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white" onclick="updateQuantity(${item.id}, '${item.size}', '${item.color}', -1)">-</button>
+              <button class="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white gradient-border" onclick="updateQuantity(${item.id}, '${item.size}', '${item.color}', -1)">-</button>
               <span>${item.quantity}</span>
-              <button class="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white" onclick="updateQuantity(${item.id}, '${item.size}', '${item.color}', 1)">+</button>
+              <button class="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white gradient-border" onclick="updateQuantity(${item.id}, '${item.size}', '${item.color}', 1)">+</button>
             </div>
           </div>
-          <p class="text-tangerine-500 font-semibold">₹${itemTotal.toLocaleString()}</p>
+          <p class="text-amber-500 dark:text-amber-400 font-semibold">₹${itemTotal.toLocaleString()}</p>
         </div>
       `;
       $("#cart-items").append(cartItem);
@@ -266,25 +319,26 @@ $(document).ready(function () {
     renderProducts();
     renderWishlist();
     renderRecommendations();
-    gsap.from(`.btn-icon[data-id="${id}"], #wishlist-count`, { scale: 1.3, duration: 0.3 });
+    $("#wishlist-count").text(wishlist.length);
+    gsap.from(`.btn-icon[data-id="${id}"][data-action="wishlist"], #wishlist-count`, { scale: 1.3, duration: 0.3 });
   }
 
   function renderWishlist() {
     $("#wishlist-items").empty();
     $("#wishlist-count").text(wishlist.length);
     if (!wishlist.length) {
-      $("#wishlist-items").html('<p class="text-center text-gray-600 dark:text-gray-400 text-lg p-8 bg-gray-100 dark:bg-gray-700 rounded-xl">Your wishlist is empty</p>');
+      $("#wishlist-items").html('<p class="text-center text-gray-600 dark:text-gray-400 text-lg p-8 bg-gray-100 dark:bg-gray-700 rounded-xl gradient-border">Your wishlist is empty</p>');
       return;
     }
     wishlist.forEach((item) => {
       const wishlistItem = `
-        <div class="flex gap-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-xl">
+        <div class="flex gap-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-xl gradient-border">
           <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-contain rounded-lg" loading="lazy" />
           <div class="flex-1">
-            <h6 class="font-poppins text-indigo-900 dark:text-indigo-200">${item.name}</h6>
-            <p class="text-tangerine-500 font-semibold">₹${item.price.toLocaleString()}</p>
+            <h6 class="font-poppins font-bold text-indigo-900 dark:text-indigo-200">${item.name}</h6>
+            <p class="text-amber-500 dark:text-amber-400 font-semibold">₹${item.price.toLocaleString()}</p>
           </div>
-          <button class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-emerald-700" onclick="addToCart(${item.id})">Add to Cart</button>
+          <button class="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-emerald-700 gradient-border" onclick="addToCart(${item.id})">Add to Cart</button>
         </div>
       `;
       $("#wishlist-items").append(wishlistItem);
@@ -307,24 +361,24 @@ $(document).ready(function () {
     renderProducts();
     renderCompare();
     $("#compare-count").text(compare.length);
-    gsap.from(`.btn-icon[data-id="${id}"], #compare-count`, { scale: 1.3, duration: 0.3 });
+    gsap.from(`.btn-icon[data-id="${id}"][data-action="compare"], #compare-count`, { scale: 1.3, duration: 0.3 });
   }
 
   function renderCompare() {
     $("#compare-table").empty();
     if (!compare.length) {
-      $("#compare-table").html('<p class="text-center text-gray-600 dark:text-gray-400 text-lg p-8 bg-gray-100 dark:bg-gray-700 rounded-xl">No products to compare</p>');
+      $("#compare-table").html('<p class="text-center text-gray-600 dark:text-gray-400 text-lg p-8 bg-gray-100 dark:bg-gray-700 rounded-xl gradient-border">No products to compare</p>');
       return;
     }
     compare.forEach((product) => {
       const compareItem = `
-        <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-xl text-center">
+        <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-xl text-center gradient-border">
           <img src="${product.image}" alt="${product.name}" class="w-32 h-32 object-contain mx-auto mb-4" loading="lazy" />
-          <h6 class="font-poppins text-indigo-900 dark:text-indigo-200 mb-2">${product.name}</h6>
-          <p class="text-tangerine-500 font-semibold mb-2">₹${product.price.toLocaleString()}</p>
+          <h6 class="font-poppins font-bold text-indigo-900 dark:text-indigo-200 mb-2">${product.name}</h6>
+          <p class="text-amber-500 dark:text-amber-400 font-semibold mb-2">₹${product.price.toLocaleString()}</p>
           <p class="text-gray-600 dark:text-gray-400 mb-2">Category: ${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</p>
           <p class="text-gray-600 dark:text-gray-400">Rating: ${product.rating}</p>
-          <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700" onclick="toggleCompare(${product.id});$('#compare-modal').modal('hide')">Remove</button>
+          <button class="mt-4 bg-red-600 text-white px-4 py-2 rounded-full hover:bg-red-700 gradient-border" onclick="toggleCompare(${product.id});$('#compare-modal').modal('hide')">Remove</button>
         </div>
       `;
       $("#compare-table").append(compareItem);
@@ -357,6 +411,7 @@ $(document).ready(function () {
       const color = $("#quick-view-color").val();
       addToCart(id, size, color);
       $("#quick-view-modal").modal("hide");
+      gsap.from("#cart-offcanvas", { x: 20, duration: 0.3 });
     });
     $("#quick-view-wishlist").off("click").on("click", () => {
       toggleWishlist(id);
@@ -370,7 +425,7 @@ $(document).ready(function () {
     addToRecentlyViewed(id);
     gsap.from("#quick-view-modal .modal-content", { opacity: 0, scale: 0.9, duration: 0.3 });
     // Image Zoom
-    $("#quick-view-image").on("mousemove", function (e) {
+    $("#quick-view-image").off("mousemove mouseleave").on("mousemove", function (e) {
       const { left, top, width, height } = this.getBoundingClientRect();
       const x = (e.clientX - left) / width;
       const y = (e.clientY - top) / height;
@@ -400,14 +455,13 @@ $(document).ready(function () {
     const category = $('input[name="category"]:checked').val();
     const price = $("#price-filter").val();
     const query = ($("#search-input").val() || $("#search-input-mobile").val()).toLowerCase();
-    if (category !== "all") {
+    if (category !== "  all") {
       filteredProducts = filteredProducts.filter((p) => p.category === category);
     }
     filteredProducts = filteredProducts.filter((p) => p.price <= price);
     if (query) {
       filteredProducts = filteredProducts.filter((p) => p.name.toLowerCase().includes(query));
-      // Live Search Preview
-      const preview = filteredProducts.slice(0, 3).map((p) => `<div class="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer" onclick="showQuickView(${p.id})">${p.name}</div>`).join("");
+      const preview = filteredProducts.slice(0, 3).map((p) => `<div class="p-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer gradient-border" onclick="showQuickView(${p.id})">${p.name}</div>`).join("");
       $("#search-preview").html(preview).removeClass("hidden");
     } else {
       $("#search-preview").addClass("hidden");
@@ -445,6 +499,7 @@ $(document).ready(function () {
     deliveryDate.setDate(deliveryDate.getDate() + 5);
     $("#est-delivery").text(deliveryDate.toLocaleDateString());
     $("#checkout-modal").modal("show");
+    gsap.from("#checkout-modal .modal-content", { opacity: 0, y: 20, duration: 0.3 });
   };
 
   $("#checkout-form").on("submit", function (e) {
@@ -463,24 +518,27 @@ $(document).ready(function () {
   // Order Tracking
   window.trackOrder = function () {
     const orderId = $("#order-id").val();
-    const order = orders.find((o) => o.id === orderId);
-    if (!order) {
-      $("#order-status").html('<p class="text-center text-red-500">Order not found</p>');
+    if (!orderId) {
+      $("#order-status").html('<p class="text-center text-red-500">Please enter an order ID</p>');
       return;
     }
-    const statusSteps = ["Processing", "Shipped", "Out for Delivery", "Delivered"];
-    const currentStep = statusSteps.indexOf(order.status);
-    const progress = ((currentStep + 1) / statusSteps.length) * 100;
+    const statuses = ["Processing", "Shipped", "Out for Delivery", "Delivered"];
+    const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    const currentStep = statuses.indexOf(randomStatus);
+    const progress = ((currentStep + 1) / statuses.length) * 100;
+    const fakeDate = new Date();
+    fakeDate.setDate(fakeDate.getDate() - Math.floor(Math.random() * 10));
     const statusHtml = `
-      <p class="text-gray-600 dark:text-gray-400 mb-4">Order ID: ${order.id} | Placed on ${new Date(order.date).toLocaleDateString()}</p>
-      <div class="progress mb-4">
+      <p class="text-gray-600 dark:text-gray-400 mb-4">Order ID: ${orderId} | Placed on ${fakeDate.toLocaleDateString()}</p>
+      <div class="progress mb-4 bg-gray-200 dark:bg-gray-600 rounded-full">
         <div class="progress-bar bg-emerald-600" style="width: ${progress}%"></div>
       </div>
       <div class="flex justify-between text-sm">
-        ${statusSteps.map((step, i) => `<span class="${i <= currentStep ? "text-emerald-600" : "text-gray-400"}">${step}</span>`).join("")}
+        ${statuses.map((step, i) => `<span class="${i <= currentStep ? "text-emerald-600 dark:text-emerald-400" : "text-gray-400"}">${step}</span>`).join("")}
       </div>
     `;
     $("#order-status").html(statusHtml);
+    gsap.from("#order-status", { opacity: 0, y: 10, duration: 0.3 });
   };
 
   // Admin Panel
@@ -505,6 +563,7 @@ $(document).ready(function () {
     renderInventory();
     $(this)[0].reset();
     alert("Product added successfully!");
+    gsap.from("#inventory-table", { opacity: 0, duration: 0.3 });
   });
 
   function renderInventory() {
@@ -516,7 +575,7 @@ $(document).ready(function () {
           <td class="py-3 px-4 text-gray-700 dark:text-gray-300">₹${product.price.toLocaleString()}</td>
           <td class="py-3 px-4 text-gray-700 dark:text-gray-300">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</td>
           <td class="py-3 px-4">
-            <button class="bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700" onclick="deleteProduct(${product.id})">Delete</button>
+            <button class="bg-red-600 text-white px-3 py-1 rounded-full hover:bg-red-700 gradient-border" onclick="deleteProduct(${product.id})">Delete</button>
           </td>
         </tr>
       `;
@@ -551,6 +610,7 @@ $(document).ready(function () {
       alert("Thank you for subscribing!");
       $(this)[0].reset();
       $("#newsletter-popup").modal("hide");
+      gsap.from("footer", { opacity: 0, duration: 0.3 });
     }
   });
 
@@ -570,6 +630,12 @@ $(document).ready(function () {
     if (!localStorage.getItem("newsletterShown")) {
       $("#newsletter-popup").modal("show");
       localStorage.setItem("newsletterShown", "true");
+      gsap.from("#newsletter-popup .modal-content", { scale: 0.9, opacity: 0, duration: 0.3 });
     }
   }, 5000);
+
+  // Loading Spinner
+  $(window).on("load", function () {
+    $("#loading-spinner").addClass("hidden");
+  });
 });
