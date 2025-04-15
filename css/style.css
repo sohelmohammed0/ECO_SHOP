@@ -1,200 +1,232 @@
+/* Custom Styles for EcoShop */
+
+/* Root Variables */
 :root {
-    --snow: #F7FAFC;
-    --emerald: #059669;
-    --tangerine: #F97316;
-    --indigo: #1E3A8A;
-    --charcoal: #1F2937;
+  --emerald: #059669;
+  --tangerine: #F97316;
+  --indigo: #1E3A8A;
+  --charcoal: #1F2937;
+  --snow: #F7FAFC;
+  --gradient: linear-gradient(135deg, var(--emerald), #34D399);
+  --transition: all 0.3s ease;
+}
+
+/* Glassmorphism Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hero Parallax and Background */
+.hero-bg {
+  background: url('../assets/svgs/eco-hero.svg') no-repeat center/cover;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.4), rgba(249, 115, 22, 0.4));
+  z-index: 1;
+}
+
+.hero-bg .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Subtle Background Pattern */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../assets/svgs/eco-pattern.svg') repeat;
+  opacity: 0.05;
+  z-index: -1;
+}
+
+/* Product Card Hover Effect */
+.product-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--gradient);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.product-card:hover::before {
+  opacity: 0.1;
+}
+
+/* Button Glow Effect */
+.btn-glow {
+  position: relative;
+}
+
+.btn-glow::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: radial-gradient(circle, rgba(5, 150, 105, 0.3), transparent);
+  border-radius: 9999px;
+  opacity: 0;
+  transition: var(--transition);
+  z-index: -1;
+}
+
+.btn-glow:hover::after {
+  opacity: 1;
+}
+
+/* Search Preview Dropdown */
+#search-preview {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border-radius: 0 0 1rem 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Custom Button Icon Styling */
+.btn-icon {
+  transition: var(--transition);
+}
+
+/* Swiper Navigation */
+.swiper-button-prev,
+.swiper-button-next {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: var(--snow);
+  transition: var(--transition);
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background: var(--emerald);
+}
+
+/* Modal Enhancements */
+.modal-content {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Sticky Cart */
+#sticky-cart {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--snow);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--emerald);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--tangerine);
+}
+
+/* Dark Mode Overrides */
+.dark .glass {
+  background: rgba(31, 41, 55, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark #search-preview {
+  background: var(--charcoal);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--charcoal);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--tangerine);
+}
+
+/* Accessibility Focus */
+:focus-visible {
+  outline: 3px solid var(--emerald);
+  outline-offset: 2px;
+}
+
+/* Smooth Transitions for Dark Mode */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Fix Bootstrap Conflicts */
+.btn-close {
+  filter: none;
+  opacity: 0.8;
+}
+
+.btn-close:hover {
+  opacity: 1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero-bg::before {
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.5), rgba(249, 115, 22, 0.5));
   }
-  
-  body {
-    scroll-behavior: smooth;
+
+  #search-preview {
+    max-height: 150px;
   }
-  
-  .font-poppins {
-    font-family: 'Poppins', sans-serif;
+
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 32px;
+    height: 32px;
   }
-  
-  .bg-indigo {
-    background-color: var(--indigo);
+}
+
+@media (max-width: 576px) {
+  .product-card::before {
+    opacity: 0.05;
   }
-  
-  .text-snow {
-    color: var(--snow);
+
+  .btn-glow::after {
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
   }
-  
-  .text-charcoal {
-    color: var(--charcoal);
-  }
-  
-  .nav-link {
-    color: var(--charcoal);
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-  
-  .nav-link:hover {
-    color: var(--emerald);
-  }
-  
-  .nav-icon {
-    position: relative;
-    font-size: 1.4rem;
-    transition: transform 0.2s ease;
-  }
-  
-  .nav-icon:hover {
-    transform: scale(1.1);
-  }
-  
-  .nav-icon .badge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    font-size: 0.6rem;
-    line-height: 1.2;
-  }
-  
-  .btn-emerald {
-    background-color: var(--emerald);
-    color: var(--snow);
-  }
-  
-  .btn-emerald:hover {
-    background-color: #047857;
-  }
-  
-  .btn-tangerine {
-    background-color: var(--tangerine);
-    color: var(--snow);
-  }
-  
-  .btn-tangerine:hover {
-    background-color: #e5620d;
-  }
-  
-  .btn-outline-emerald {
-    border-color: var(--emerald);
-    color: var(--emerald);
-  }
-  
-  .btn-outline-emerald:hover {
-    background-color: var(--emerald);
-    color: var(--snow);
-  }
-  
-  .btn-outline-tangerine {
-    border-color: var(--tangerine);
-    color: var(--tangerine);
-  }
-  
-  .btn-outline-tangerine:hover {
-    background-color: var(--tangerine);
-    color: var(--snow);
-  }
-  
-  .product-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: none;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .product-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-  
-  .product-card .zoom-container {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .product-card img {
-    transition: transform 0.5s ease;
-    width: 192px;
-    height: 192px;
-    object-fit: contain;
-  }
-  
-  .product-card:hover img {
-    transform: scale(1.1);
-  }
-  
-  .product-card h5 {
-    font-size: 1rem;
-    margin: 0.5rem 0;
-    white-space: normal;
-    word-wrap: break-word;
-    overflow: visible;
-    max-height: none;
-  }
-  
-  .product-card p,
-  .product-card .rating-stars {
-    margin: 0.25rem 0;
-  }
-  
-  .category-card {
-    transition: transform 0.2s ease;
-  }
-  
-  .category-card:hover {
-    transform: scale(1.05);
-  }
-  
-  .form-control,
-  .form-select {
-    border: 1px solid var(--charcoal);
-    transition: border-color 0.2s ease;
-  }
-  
-  .form-control:focus,
-  .form-select:focus {
-    border-color: var(--emerald);
-    box-shadow: 0 0 5px rgba(5, 150, 105, 0.3);
-  }
-  
-  .form-range::-webkit-slider-thumb {
-    background: var(--emerald);
-  }
-  
-  .dropdown-menu {
-    border: none;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    background-color: var(--charcoal);
-    border-radius: 50%;
-  }
-  
-  .order-progress {
-    height: 10px;
-    border-radius: 5px;
-  }
-  
-  .order-step {
-    font-size: 0.85rem;
-  }
-  
-  .zoom-container img {
-    transition: transform 0.5s ease;
-  }
-  
-  .zoom-container:hover img {
-    transform: scale(1.2);
-  }
-  
-  #product-grid {
-    transition: opacity 0.3s ease;
-  }
-  
-  #product-grid.loading {
-    opacity: 0.5;
-  }
-  
-  #sticky-cart:hover {
-    transform: scale(1.05);
-  }
+}

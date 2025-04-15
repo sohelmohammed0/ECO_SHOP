@@ -1,136 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="EcoShop: Pro Edition - Sustainable Shopping in India" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="EcoShop: Pro Edition - Sustainable Shopping in India" />
+    <meta property="og:description" content="Shop eco-friendly products with ease and style at EcoShop." />
+    <meta property="og:image" content="assets/images/og-image.jpg" />
+    <meta property="og:url" content="https://yourdomain.com" />
     <title>EcoShop: Pro Edition</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-    <!-- AOS -->
+    <link rel="canonical" href="https://yourdomain.com" />
+    <link rel="preload" href="assets/svgs/eco-hero.svg" as="image" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@600&display=swap" rel="stylesheet" />
-    <!-- Critical CSS -->
-    <style>
-      :root {
-        --snow: #F7FAFC;
-        --emerald: #059669;
-        --tangerine: #F97316;
-        --indigo: #1E3A8A;
-        --charcoal: #1F2937;
-      }
-      body {
-        font-family: 'Roboto', sans-serif;
-        background-color: var(--snow);
-        color: var(--charcoal);
-        margin: 0;
-      }
-      .hero-bg {
-        background: linear-gradient(rgba(247, 250, 252, 0.9), rgba(247, 250, 252, 0.9)), url('assets/svgs/eco-hero.svg');
-        background-size: cover;
-        background-position: center;
-        position: relative;
-      }
-      #loading-spinner {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-      }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/style.css" />
   </head>
-  <body>
+  <body class="bg-gray-50 dark:bg-gray-900 font-roboto text-gray-800 dark:text-gray-200 transition-colors duration-300">
     <!-- Loading Spinner -->
-    <div id="loading-spinner" class="spinner-border text-emerald d-none" role="status">
-      <span class="visually-hidden">Loading...</span>
+    <div id="loading-spinner" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-emerald-600 hidden" role="status">
+      <i class="fas fa-spinner fa-spin text-4xl"></i>
+      <span class="sr-only">Loading...</span>
     </div>
 
+    <!-- Dark Mode Toggle -->
+    <button id="dark-mode-toggle" class="fixed top-4 right-4 p-3 bg-gray-200 dark:bg-gray-700 rounded-full z-50 hover:scale-110 transition-transform" aria-label="Toggle dark mode">
+      <i class="fas fa-moon text-gray-800 dark:text-yellow-300"></i>
+    </button>
+
     <!-- Header -->
-    <header class="sticky-top bg-indigo text-snow shadow-sm" id="main-nav">
-      <div class="container py-2">
-        <div class="d-flex align-items-center justify-content-between">
-          <a class="navbar-brand d-flex align-items-center" href="#home">
-            <img src="assets/svgs/logo.svg" alt="EcoShop Logo" class="w-10 h-10 me-2" />
-            <span class="text-2xl font-poppins">EcoShop</span>
-          </a>
-          <div class="flex-grow-1 mx-4">
-            <div class="input-group">
-              <span class="input-group-text bg-snow"><i class="fas fa-search text-charcoal"></i></span>
-              <input type="text" id="search-input" class="form-control" placeholder="Search eco-friendly products..." />
-            </div>
-          </div>
-          <div class="d-flex align-items-center gap-3">
-            <div class="dropdown">
-              <a href="#" class="nav-icon dropdown-toggle" data-bs-toggle="dropdown">
-                <i class="fas fa-user text-snow"></i>
-                <span id="user-name" class="ms-1 d-none"></span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end bg-snow">
-                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#auth-modal">Login/Signup</a></li>
-                <li><a class="dropdown-item d-none" id="profile-link" href="#profile">Profile</a></li>
-                <li><a class="dropdown-item d-none" id="admin-link" href="#admin">Admin Dashboard</a></li>
-                <li><a class="dropdown-item d-none" id="logout-link" href="#">Logout</a></li>
-              </ul>
-            </div>
-            <a href="#wishlist" class="nav-icon position-relative" data-bs-toggle="offcanvas" data-bs-target="#wishlist-offcanvas">
-              <i class="far fa-heart text-snow"></i>
-              <span id="wishlist-count" class="badge bg-tangerine text-snow">0</span>
-            </a>
-            <a href="#cart" class="nav-icon position-relative" data-bs-toggle="offcanvas" data-bs-target="#cart-offcanvas">
-              <i class="fas fa-shopping-cart text-snow"></i>
-              <span id="cart-count" class="badge bg-tangerine text-snow">0</span>
-            </a>
-          </div>
+    <header class="sticky top-0 bg-indigo-900 dark:bg-indigo-950 text-white shadow-lg z-40">
+      <nav class="container mx-auto max-w-7xl px-4 py-4 flex items-center justify-between">
+        <a class="flex items-center gap-2" href="#home">
+          <img src="assets/svgs/logo.svg" alt="EcoShop Logo" class="w-10 h-10" loading="lazy" />
+          <span class="text-2xl font-poppins font-bold">EcoShop</span>
+        </a>
+        <div class="hidden lg:flex items-center gap-4 w-full max-w-xl relative">
+          <input type="text" id="search-input" class="w-full p-3 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500" placeholder="Search eco-friendly products..." aria-label="Search eco-friendly products" />
+          <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+          <div id="search-preview" class="hidden bg-white dark:bg-gray-800 shadow-lg rounded-b-xl"></div>
         </div>
-      </div>
-      <nav class="bg-snow py-2 shadow-sm">
-        <div class="container d-flex justify-content-center gap-4">
-          <a href="#home" class="nav-link">Home</a>
-          <a href="#products" class="nav-link">Shop</a>
-          <a href="#categories" class="nav-link">Categories</a>
-          <a href="#deals" class="nav-link">Deals</a>
-          <a href="#orders" class="nav-link">Track Orders</a>
-          <a href="#about" class="nav-link">About</a>
+        <div class="flex items-center gap-4">
+          <button class="lg:hidden text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
+          <div class="dropdown relative">
+            <a class="flex items-center gap-2 text-white hover:text-tangerine-400 transition-colors" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-user text-xl"></i>
+              <span id="user-name" class="hidden"></span>
+            </a>
+            <ul class="dropdown-menu absolute right-0 mt-2 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-xl shadow-lg w-48">
+              <li><a class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700" href="#" data-bs-toggle="modal" data-bs-target="#auth-modal">Login/Signup</a></li>
+              <li><a class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 hidden" id="profile-link" href="#profile">Profile</a></li>
+              <li><a class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 hidden" id="admin-link" href="#admin">Admin Dashboard</a></li>
+              <li><a class="dropdown-item px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 hidden" id="logout-link" href="#">Logout</a></li>
+            </ul>
+          </div>
+          <a class="relative flex items-center" href="#wishlist" data-bs-toggle="offcanvas" data-bs-target="#wishlist-offcanvas" aria-controls="wishlist-offcanvas">
+            <i class="far fa-heart text-xl hover:scale-110 transition-transform"></i>
+            <span id="wishlist-count" class="absolute -top-2 -right-2 bg-tangerine-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+          </a>
+          <a class="relative flex items-center" href="#cart" data-bs-toggle="offcanvas" data-bs-target="#cart-offcanvas" aria-controls="cart-offcanvas">
+            <i class="fas fa-shopping-cart text-xl hover:scale-110 transition-transform"></i>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-tangerine-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+          </a>
         </div>
       </nav>
+      <div class="collapse bg-gray-100 dark:bg-gray-800" id="navbarContent">
+        <div class="container mx-auto max-w-7xl px-4 py-4">
+          <input type="text" id="search-input-mobile" class="w-full p-3 rounded-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 mb-4 lg:hidden" placeholder="Search products..." aria-label="Search eco-friendly products" />
+          <ul class="flex flex-col lg:flex-row justify-center gap-4 text-gray-800 dark:text-gray-200">
+            <li><a href="#home" class="block px-4 py-2 text-lg hover:bg-emerald-100 dark:hover:bg-emerald-900 rounded-lg">Home</a></li>
+            <li><a href="#products" class="block px-4 py-2 text-lg hover:bg-emerald-100 dark:hover:bg-emerald-900 rounded-lg">Shop</a></li>
+            <li><a href="#categories" class="block px-4 py-2 text-lg hover:bg-emerald-100 dark:hover:bg-emerald-900 rounded-lg">Categories</a></li>
+            <li><a href="#deals" class="block px-4 py-2 text-lg hover:bg-emerald-100 dark:hover:bg-emerald-900 rounded-lg">Deals</a></li>
+            <li><a href="#orders" class="block px-4 py-2 text-lg hover:bg-emerald-100 dark:hover:bg-emerald-900 rounded-lg">Track Orders</a></li>
+            <li><a href="#about" class="block px-4 py-2 text-lg hover:bg-emerald-100 dark:hover:bg-emerald-900 rounded-lg">About</a></li>
+          </ul>
+        </div>
+      </div>
     </header>
 
     <!-- Auth Modal -->
-    <div class="modal fade" id="auth-modal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-snow border-0 rounded-3">
-          <div class="modal-header border-0">
-            <h5 class="modal-title font-poppins text-indigo">Welcome</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal fade" id="auth-modal" tabindex="-1" aria-labelledby="auth-modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered max-w-md">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+          <div class="modal-header border-0 p-6">
+            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="auth-modal-title">Welcome to EcoShop</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <ul class="nav nav-tabs mb-4">
+          <div class="modal-body p-6">
+            <ul class="nav nav-tabs mb-6">
               <li class="nav-item">
-                <a class="nav-link active text-indigo" data-bs-toggle="tab" href="#login">Login</a>
+                <a class="nav-link active text-indigo-900 dark:text-indigo-200" data-bs-toggle="tab" href="#login">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-indigo" data-bs-toggle="tab" href="#signup">Sign Up</a>
+                <a class="nav-link text-indigo-900 dark:text-indigo-200" data-bs-toggle="tab" href="#signup">Sign Up</a>
               </li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane fade show active" id="login">
                 <form id="login-form">
-                  <input type="email" class="form-control mb-3 rounded-pill" placeholder="Email" required />
-                  <input type="password" class="form-control mb-3 rounded-pill" placeholder="Password" required />
-                  <button type="submit" class="btn btn-emerald w-100 rounded-pill">Login</button>
+                  <div class="mb-4">
+                    <input type="email" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Email" required aria-describedby="login-email-error" />
+                    <div id="login-email-error" class="invalid-feedback text-red-500 text-sm mt-1">Please enter a valid email.</div>
+                  </div>
+                  <div class="mb-4">
+                    <input type="password" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Password" required aria-describedby="login-password-error" />
+                    <div id="login-password-error" class="invalid-feedback text-red-500 text-sm mt-1">Password is required.</div>
+                  </div>
+                  <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105">Login</button>
                 </form>
               </div>
               <div class="tab-pane fade" id="signup">
                 <form id="signup-form">
-                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="Full Name" required />
-                  <input type="email" class="form-control mb-3 rounded-pill" placeholder="Email" required />
-                  <input type="password" class="form-control mb-3 rounded-pill" placeholder="Password" required />
-                  <button type="submit" class="btn btn-emerald w-100 rounded-pill">Sign Up</button>
+                  <div class="mb-4">
+                    <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Full Name" required />
+                  </div>
+                  <div class="mb-4">
+                    <input type="email" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Email" required />
+                  </div>
+                  <div class="mb-4">
+                    <input type="password" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Password" required />
+                  </div>
+                  <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105">Sign Up</button>
                 </form>
               </div>
             </div>
@@ -139,182 +136,217 @@
       </div>
     </div>
 
-    <!-- Hero -->
-    <section id="home" class="hero-bg py-20 text-center">
-      <div class="container">
-        <h1 class="text-5xl font-poppins text-indigo mb-4" data-aos="fade-up">
-          Green Living, Made Simple
-        </h1>
-        <p class="text-xl text-charcoal max-w-2xl mx-auto mb-6" data-aos="fade-up" data-aos-delay="200">
-          Shop sustainable products with ease and style.
-        </p>
-        <a href="#products" class="btn btn-tangerine text-snow px-8 py-3 rounded-pill" data-aos="fade-up" data-aos-delay="400">
-          Shop Now
-        </a>
+    <!-- Home Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center text-center py-16 relative" data-parallax>
+      <div class="container mx-auto max-w-7xl px-4 z-10">
+        <h1 class="text-5xl md:text-6xl font-poppins text-indigo-900 dark:text-indigo-200 mb-6 leading-tight" data-aos="fade-up">Green Living, Made Simple</h1>
+        <p class="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">Discover sustainable products crafted for a better tomorrow.</p>
+        <a href="#products" class="inline-block bg-tangerine-500 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-tangerine-600 transition-transform transform hover:scale-105 shadow-lg" data-aos="fade-up" data-aos-delay="400">Shop Now</a>
       </div>
     </section>
 
-    <!-- Categories Carousel -->
-    <section id="categories" class="py-12 bg-snow">
-      <div class="container">
-        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-          Shop by Category
-        </h2>
-        <div id="category-carousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div class="row g-4">
-                <div class="col-4">
-                  <a href="#products" class="category-card bg-white p-4 rounded-lg text-center d-block">
-                    <img src="assets/svgs/personal-care.svg" alt="Personal Care" class="w-20 h-20 mx-auto mb-3" />
-                    <h5 class="font-poppins text-emerald">Personal Care</h5>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="#products" class="category-card bg-white p-4 rounded-lg text-center d-block">
-                    <img src="assets/svgs/home-goods.svg" alt="Home Goods" class="w-20 h-20 mx-auto mb-3" />
-                    <h5 class="font-poppins text-emerald">Home Goods</h5>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="#products" class="category-card bg-white p-4 rounded-lg text-center d-block">
-                    <img src="assets/svgs/accessories.svg" alt="Accessories" class="w-20 h-20 mx-auto mb-3" />
-                    <h5 class="font-poppins text-emerald">Accessories</h5>
-                  </a>
-                </div>
+    <!-- Why Shop With Us -->
+    <section id="why-shop" class="py-16 bg-white dark:bg-gray-800">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Why Shop With Us?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="100">
+            <i class="fas fa-leaf text-4xl text-emerald-600 mb-4"></i>
+            <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Eco-Friendly</h3>
+            <p class="text-gray-600 dark:text-gray-400">Sustainable products to reduce your carbon footprint.</p>
+          </div>
+          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="200">
+            <i class="fas fa-truck text-4xl text-emerald-600 mb-4"></i>
+            <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Fast Delivery</h3>
+            <p class="text-gray-600 dark:text-gray-400">Get your orders in days, not weeks.</p>
+          </div>
+          <div class="text-center p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl shadow-lg" data-aos="fade-up" data-aos-delay="300">
+            <i class="fas fa-shield-alt text-4xl text-emerald-600 mb-4"></i>
+            <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Trusted Quality</h3>
+            <p class="text-gray-600 dark:text-gray-400">High-quality products you can rely on.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Product -->
+    <section id="featured" class="py-16 bg-emerald-50 dark:bg-gray-800">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Featured Product</h2>
+        <div class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg text-center">
+                <img src="assets/svgs/toothbrush.svg" alt="Bamboo Toothbrush" class="w-32 h-32 mx-auto mb-6" loading="lazy" />
+                <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Bamboo Toothbrush</h3>
+                <p class="text-emerald-600 dark:text-emerald-400 text-lg font-semibold">₹425</p>
+                <a href="#products" class="mt-4 inline-block bg-tangerine-500 text-white px-6 py-2 rounded-full hover:bg-tangerine-600">Shop Now</a>
               </div>
             </div>
-            <div class="carousel-item">
-              <div class="row g-4">
-                <div class="col-4">
-                  <a href="#products" class="category-card bg-white p-4 rounded-lg text-center d-block">
-                    <img src="assets/svgs/electronics.svg" alt="Electronics" class="w-20 h-20 mx-auto mb-3" />
-                    <h5 class="font-poppins text-emerald">Electronics</h5>
-                  </a>
-                </div>
+            <div class="swiper-slide">
+              <div class="bg-white dark:bg-gray-700 p-8 rounded-xl shadow-lg text-center">
+                <img src="assets/svgs/tote-bag.svg" alt="Organic Cotton Tote Bag" class="w-32 h-32 mx-auto mb-6" loading="lazy" />
+                <h3 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-2">Organic Cotton Tote Bag</h3>
+                <p class="text-emerald-600 dark:text-emerald-400 text-lg font-semibold">₹1700</p>
+                <a href="#products" class="mt-4 inline-block bg-tangerine-500 text-white px-6 py-2 rounded-full hover:bg-tangerine-600">Shop Now</a>
               </div>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#category-carousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#category-carousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-          </button>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories" class="py-16 bg-white dark:bg-gray-800">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Shop by Category</h2>
+        <div id="category-carousel" class="swiper-container">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <a href="#products?category=personal" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105" data-aos="fade-up">
+                <img src="assets/svgs/personal-care.svg" alt="Personal Care" class="w-16 h-16 mx-auto mb-4" loading="lazy" />
+                <h5 class="text-lg font-poppins text-emerald-600 dark:text-emerald-400">Personal Care</h5>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#products?category=home" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105" data-aos="fade-up">
+                <img src="assets/svgs/home-goods.svg" alt="Home Goods" class="w-16 h-16 mx-auto mb-4" loading="lazy" />
+                <h5 class="text-lg font-poppins text-emerald-600 dark:text-emerald-400">Home Goods</h5>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#products?category=accessories" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105" data-aos="fade-up">
+                <img src="assets/svgs/accessories.svg" alt="Accessories" class="w-16 h-16 mx-auto mb-4" loading="lazy" />
+                <h5 class="text-lg font-poppins text-emerald-600 dark:text-emerald-400">Accessories</h5>
+              </a>
+            </div>
+            <div class="swiper-slide">
+              <a href="#products?category=electronics" class="block p-6 bg-emerald-50 dark:bg-gray-700 rounded-xl text-center hover:shadow-xl transition-transform transform hover:scale-105" data-aos="fade-up">
+                <img src="assets/svgs/electronics.svg" alt="Electronics" class="w-16 h-16 mx-auto mb-4" loading="lazy" />
+                <h5 class="text-lg font-poppins text-emerald-600 dark:text-emerald-400">Electronics</h5>
+              </a>
+            </div>
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
         </div>
       </div>
     </section>
 
     <!-- Deals -->
-    <section id="deals" class="py-12 bg-white">
-      <div class="container">
-        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-          Eco Deals
-        </h2>
-        <div id="deals-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"></div>
+    <section id="deals" class="py-16 bg-gray-100 dark:bg-gray-900">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Eco Deals</h2>
+        <div id="deals-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
       </div>
     </section>
 
     <!-- Products -->
-    <section id="products" class="py-12 bg-snow">
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-md-3">
-            <div class="card bg-white p-4 rounded-lg sticky-top" style="top: 100px;">
-              <h5 class="font-poppins text-indigo mb-4">Filters</h5>
-              <div class="mb-4">
-                <h6 class="text-charcoal">Category</h6>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="cat-all" value="all" checked />
-                  <label class="form-check-label" for="cat-all">All</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="cat-personal" value="personal" />
-                  <label class="form-check-label" for="cat-personal">Personal Care</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="cat-home" value="home" />
-                  <label class="form-check-label" for="cat-home">Home Goods</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="cat-accessories" value="accessories" />
-                  <label class="form-check-label" for="cat-accessories">Accessories</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="category" id="cat-electronics" value="electronics" />
-                  <label class="form-check-label" for="cat-electronics">Electronics</label>
+    <section id="products" class="py-16 bg-white dark:bg-gray-800">
+      <div class="container mx-auto max-w-7xl px-4">
+        <div class="flex flex-col lg:flex-row gap-8">
+          <aside class="lg:w-1/4">
+            <div class="sticky top-24 bg-emerald-50 dark:bg-gray-700 p-6 rounded-xl shadow-lg glass">
+              <h5 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-6">Filters</h5>
+              <div class="mb-6">
+                <h6 class="text-lg text-gray-700 dark:text-gray-300 mb-3">Category</h6>
+                <div class="space-y-2">
+                  <div class="flex items-center">
+                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-all" value="all" checked />
+                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-all">All</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-personal" value="personal" />
+                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-personal">Personal Care</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-home" value="home" />
+                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-home">Home Goods</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-accessories" value="accessories" />
+                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-accessories">Accessories</label>
+                  </div>
+                  <div class="flex items-center">
+                    <input class="form-check-input h-4 w-4 text-emerald-600" type="radio" name="category" id="cat-electronics" value="electronics" />
+                    <label class="ml-2 text-gray-600 dark:text-gray-400" for="cat-electronics">Electronics</label>
+                  </div>
                 </div>
               </div>
               <div>
-                <h6 class="text-charcoal">Price</h6>
-                <input type="range" id="price-filter" class="form-range" min="0" max="5000" value="5000" />
-                <span id="price-value" class="text-sm text-charcoal">Up to ₹5000</span>
+                <h6 class="text-lg text-gray-700 dark:text-gray-300 mb-3">Price Range</h6>
+                <input type="range" id="price-filter" class="w-full accent-emerald-600" min="0" max="5000" value="5000" />
+                <span id="price-value" class="block text-sm text-gray-600 dark:text-gray-400 mt-2">Up to ₹5000</span>
               </div>
             </div>
-          </div>
-          <div class="col-md-9">
-            <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-              All Products
-            </h2>
-            <div class="mb-4 d-flex gap-3">
-              <select id="sort-filter" class="form-select rounded-pill w-auto">
-                <option value="relevance">Relevance</option>
-                <option value="name-asc">Name (A-Z)</option>
-                <option value="name-desc">Name (Z-A)</option>
-                <option value="price-asc">Price (Low to High)</option>
-                <option value="price-desc">Price (High to Low)</option>
-              </select>
-              <button class="btn btn-outline-emerald rounded-pill" data-bs-toggle="modal" data-bs-target="#compare-modal">
-                Compare (<span id="compare-count">0</span>)
-              </button>
+          </aside>
+          <div class="lg:w-3/4">
+            <div class="flex justify-between items-center mb-8">
+              <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200" data-aos="fade-up">All Products</h2>
+              <div class="flex gap-4">
+                <select id="sort-filter" class="p-3 rounded-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white" aria-label="Sort products">
+                  <option value="relevance">Sort by: Relevance</option>
+                  <option value="name-asc">Name (A-Z)</option>
+                  <option value="name-desc">Name (Z-A)</option>
+                  <option value="price-asc">Price (Low to High)</option>
+                  <option value="price-desc">Price (High to Low)</option>
+                </select>
+                <button class="flex items-center gap-1 bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105" data-bs-toggle="modal" data-bs-target="#compare-modal">
+                  Compare <span id="compare-count">0</span>
+                </button>
+              </div>
             </div>
-            <div id="product-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4"></div>
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Quick View Modal -->
-    <div class="modal fade" id="quick-view-modal" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content bg-snow rounded-3">
-          <div class="modal-header border-0">
-            <h5 class="modal-title font-poppins text-indigo" id="quick-view-title"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal fade" id="quick-view-modal" tabindex="-1" aria-labelledby="quick-view-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg max-w-4xl">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+          <div class="modal-header border-0 p-6">
+            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="quick-view-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <div class="row g-4">
-              <div class="col-md-6">
-                <div class="position-relative zoom-container">
-                  <img id="quick-view-image" class="w-100 rounded-lg" />
-                </div>
+          <div class="modal-body p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="relative overflow-hidden rounded-xl">
+                <img id="quick-view-image" class="w-full h-80 object-contain transition-transform duration-300" alt="Product image" loading="lazy" />
               </div>
-              <div class="col-md-6">
-                <p id="quick-view-price" class="text-tangerine font-semibold text-xl"></p>
-                <p id="quick-view-category" class="text-charcoal"></p>
-                <div id="quick-view-rating" class="mb-3"></div>
-                <div class="mb-3">
-                  <label class="form-label">Size</label>
-                  <select id="quick-view-size" class="form-select rounded-pill">
+              <div>
+                <p id="quick-view-price" class="text-2xl font-semibold text-tangerine-500 mb-3"></p>
+                <p id="quick-view-category" class="text-gray-600 dark:text-gray-400 mb-3"></p>
+                <div id="quick-view-rating" class="mb-4 flex items-center gap-1"></div>
+                <div class="mb-4">
+                  <label for="quick-view-size" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Size</label>
+                  <select id="quick-view-size" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
                     <option value="default">Select Size</option>
                     <option value="small">Small</option>
                     <option value="medium">Medium</option>
                     <option value="large">Large</option>
                   </select>
                 </div>
-                <div class="mb-3">
-                  <label class="form-label">Color</label>
-                  <select id="quick-view-color" class="form-select rounded-pill">
+                <div class="mb-6">
+                  <label for="quick-view-color" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Color</label>
+                  <select id="quick-view-color" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
                     <option value="default">Select Color</option>
                     <option value="green">Green</option>
                     <option value="blue">Blue</option>
                     <option value="natural">Natural</option>
                   </select>
                 </div>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-emerald rounded-pill" id="quick-view-cart">Add to Cart</button>
-                  <button class="btn btn-outline-emerald rounded-pill" id="quick-view-wishlist">Wishlist</button>
-                  <button class="btn btn-outline-tangerine rounded-pill" id="quick-view-compare">Compare</button>
+                <div class="flex gap-3">
+                  <button class="flex-1 bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 btn-glow" id="quick-view-cart">Add to Cart</button>
+                  <button class="p-3 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-tangerine-500 hover:text-white transition-transform transform hover:scale-110" id="quick-view-wishlist">
+                    <i class="far fa-heart"></i>
+                  </button>
+                  <button class="p-3 bg-gray-200 dark:bg-gray-700 rounded-full hover:bg-tangerine-500 hover:text-white transition-transform transform hover:scale-110" id="quick-view-compare">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -324,77 +356,89 @@
     </div>
 
     <!-- Compare Modal -->
-    <div class="modal fade" id="compare-modal" tabindex="-1">
+    <div class="modal fade" id="compare-modal" tabindex="-1" aria-labelledby="compare-modal-title" aria-hidden="true">
       <div class="modal-dialog modal-xl">
-        <div class="modal-content bg-snow rounded-3">
-          <div class="modal-header border-0">
-            <h5 class="modal-title font-poppins text-indigo">Compare Products</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+          <div class="modal-header border-0 p-6">
+            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="compare-modal-title">Compare Products</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <div id="compare-table" class="row g-4"></div>
+          <div class="modal-body p-6">
+            <div id="compare-table" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Cart Offcanvas -->
-    <div class="offcanvas offcanvas-end bg-snow" tabindex="-1" id="cart-offcanvas">
-      <div class="offcanvas-header bg-indigo text-snow">
-        <h5 class="offcanvas-title font-poppins">Your Cart</h5>
-        <button type="button" class="btn-close text-snow" data-bs-dismiss="offcanvas"></button>
+    <div class="offcanvas offcanvas-end bg-white dark:bg-gray-800 w-96 max-w-[90%]" tabindex="-1" id="cart-offcanvas" aria-labelledby="cart-offcanvas-title">
+      <div class="offcanvas-header bg-indigo-900 dark:bg-indigo-950 text-white p-6">
+        <h5 class="text-xl font-poppins" id="cart-offcanvas-title">Your Cart</h5>
+        <button type="button" class="text-white hover:text-tangerine-400" data-bs-dismiss="offcanvas" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
-      <div class="offcanvas-body">
+      <div class="offcanvas-body p-6">
         <div id="cart-items" class="space-y-4"></div>
-        <p id="cart-total" class="text-lg font-semibold text-tangerine mt-6">Total: ₹0</p>
-        <button class="btn btn-emerald w-100 mt-4 rounded-pill" onclick="openCheckout()">Checkout</button>
+        <div class="mt-6">
+          <p id="cart-total" class="text-xl font-semibold text-tangerine-500">Total: ₹0</p>
+          <button class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 mt-4" onclick="openCheckout()">Checkout</button>
+        </div>
       </div>
     </div>
 
     <!-- Wishlist Offcanvas -->
-    <div class="offcanvas offcanvas-end bg-snow" tabindex="-1" id="wishlist-offcanvas">
-      <div class="offcanvas-header bg-indigo text-snow">
-        <h5 class="offcanvas-title font-poppins">Your Wishlist</h5>
-        <button type="button" class="btn-close text-snow" data-bs-dismiss="offcanvas"></button>
+    <div class="offcanvas offcanvas-end bg-white dark:bg-gray-800 w-96 max-w-[90%]" tabindex="-1" id="wishlist-offcanvas" aria-labelledby="wishlist-offcanvas-title">
+      <div class="offcanvas-header bg-indigo-900 dark:bg-indigo-950 text-white p-6">
+        <h5 class="text-xl font-poppins" id="wishlist-offcanvas-title">Your Wishlist</h5>
+        <button type="button" class="text-white hover:text-tangerine-400" data-bs-dismiss="offcanvas" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
-      <div class="offcanvas-body">
+      <div class="offcanvas-body p-6">
         <div id="wishlist-items" class="space-y-4"></div>
       </div>
     </div>
 
     <!-- Checkout Modal -->
-    <div class="modal fade" id="checkout-modal" tabindex="-1">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-snow rounded-3">
-          <div class="modal-header border-0">
-            <h5 class="modal-title font-poppins text-indigo">Checkout</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal fade" id="checkout-modal" tabindex="-1" aria-labelledby="checkout-modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-lg max-w-4xl">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl">
+          <div class="modal-header border-0 p-6">
+            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="checkout-modal-title">Checkout</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
-            <div class="row g-4">
-              <div class="col-md-6">
-                <h6 class="font-poppins text-indigo">Shipping</h6>
+          <div class="modal-body p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <h6 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-4">Shipping Details</h6>
                 <form id="checkout-form">
-                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="Full Name" required />
-                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="Address" required />
-                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="City" required />
-                  <input type="text" class="form-control mb-3 rounded-pill" placeholder="Postal Code" required />
+                  <div class="mb-4">
+                    <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Full Name" required />
+                  </div>
+                  <div class="mb-4">
+                    <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Address" required />
+                  </div>
+                  <div class="mb-4">
+                    <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="City" required />
+                  </div>
+                  <div class="mb-4">
+                    <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Postal Code" required />
+                  </div>
                 </form>
               </div>
-              <div class="col-md-6">
-                <h6 class="font-poppins text-indigo">Payment</h6>
-                <input type="text" class="form-control mb-3 rounded-pill" placeholder="Card Number" required />
-                <div class="row g-3">
-                  <div class="col">
-                    <input type="text" class="form-control rounded-pill" placeholder="Expiry" required />
-                  </div>
-                  <div class="col">
-                    <input type="text" class="form-control rounded-pill" placeholder="CVV" required />
-                  </div>
+              <div>
+                <h6 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-4">Payment Details</h6>
+                <div class="mb-4">
+                  <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Card Number" required />
                 </div>
-                <p class="text-charcoal mt-3">Estimated Delivery: <span id="est-delivery"></span></p>
-                <p class="text-tangerine font-semibold mt-2">Total: <span id="checkout-total">₹0</span></p>
-                <button type="submit" class="btn btn-emerald w-100 mt-4 rounded-pill" onclick="$('#checkout-form').submit()">Place Order</button>
+                <div class="grid grid-cols-2 gap-4">
+                  <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Expiry (MM/YY)" required />
+                  <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="CVV" required />
+                </div>
+                <p class="text-gray-600 dark:text-gray-400 mt-4">Estimated Delivery: <span id="est-delivery"></span></p>
+                <p class="text-tangerine-500 text-xl font-semibold mt-2">Total: <span id="checkout-total">₹0</span></p>
+                <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105 mt-6" onclick="$('#checkout-form').submit()">Place Order</button>
               </div>
             </div>
           </div>
@@ -403,60 +447,68 @@
     </div>
 
     <!-- Profile -->
-    <section id="profile" class="py-12 bg-snow d-none">
-      <div class="container">
-        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-          Your Profile
-        </h2>
-        <div class="card bg-white p-4 max-w-md mx-auto rounded-lg">
-          <form id="profile-form">
-            <input type="text" class="form-control mb-3 rounded-pill" placeholder="Full Name" required />
-            <input type="email" class="form-control mb-3 rounded-pill" placeholder="Email" required />
-            <button type="submit" class="btn btn-emerald w-100 rounded-pill">Save</button>
-          </form>
-        </div>
+    <section id="profile" class="py-16 bg-gray-100 dark:bg-gray-900 hidden">
+      <div class="container mx-auto max-w-lg px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-8 text-center" data-aos="fade-up">Your Profile</h2>
+        <form id="profile-form" class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass">
+          <div class="mb-4">
+            <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Full Name" required />
+          </div>
+          <div class="mb-4">
+            <input type="email" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Email" required />
+          </div>
+          <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105">Save Changes</button>
+        </form>
       </div>
     </section>
 
     <!-- Admin Panel -->
-    <section id="admin" class="py-12 bg-snow d-none">
-      <div class="container">
-        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-          Admin Dashboard
-        </h2>
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card bg-white p-4 rounded-lg">
-              <h5 class="font-poppins text-indigo">Add Product</h5>
+    <section id="admin" class="py-16 bg-gray-100 dark:bg-gray-900 hidden">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Admin Dashboard</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-1">
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass">
+              <h5 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-6">Add Product</h5>
               <form id="add-product-form">
-                <input type="text" class="form-control mb-3 rounded-pill" placeholder="Product Name" required />
-                <input type="number" class="form-control mb-3 rounded-pill" placeholder="Price (₹)" step="1" required />
-                <select class="form-select mb-3 rounded-pill" required>
-                  <option value="" disabled selected>Category</option>
-                  <option value="personal">Personal Care</option>
-                  <option value="home">Home Goods</option>
-                  <option value="accessories">Accessories</option>
-                  <option value="electronics">Electronics</option>
-                </select>
-                <input type="file" class="form-control mb-3 rounded-pill" accept="image/*" />
-                <button type="submit" class="btn btn-emerald w-100 rounded-pill">Add</button>
+                <div class="mb-4">
+                  <input type="text" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Product Name" required />
+                </div>
+                <div class="mb-4">
+                  <input type="number" class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Price (₹)" step="1" required />
+                </div>
+                <div class="mb-4">
+                  <select class="w-full p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="personal">Personal Care</option>
+                    <option value="home">Home Goods</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="electronics">Electronics</option>
+                  </select>
+                </div>
+                <div class="mb-4">
+                  <input type="file" class="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" accept="image/*" />
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 text-white p-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105">Add Product</button>
               </form>
             </div>
           </div>
-          <div class="col-md-8">
-            <div class="card bg-white p-4 rounded-lg">
-              <h5 class="font-poppins text-indigo">Inventory</h5>
-              <table class="table table-hover">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Category</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="inventory-table"></tbody>
-              </table>
+          <div class="lg:col-span-2">
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg glass">
+              <h5 class="text-xl font-poppins text-indigo-900 dark:text-indigo-200 mb-6">Inventory</h5>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                  <thead>
+                    <tr class="border-b border-gray-300 dark:border-gray-600">
+                      <th class="py-3 px-4 text-gray-700 dark:text-gray-300">Name</th>
+                      <th class="py-3 px-4 text-gray-700 dark:text-gray-300">Price</th>
+                      <th class="py-3 px-4 text-gray-700 dark:text-gray-300">Category</th>
+                      <th class="py-3 px-4 text-gray-700 dark:text-gray-300">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventory-table"></tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -464,67 +516,59 @@
     </section>
 
     <!-- Order Tracking -->
-    <section id="orders" class="py-12 bg-white">
-      <div class="container">
-        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-          Track Your Order
-        </h2>
-        <div class="card bg-snow p-4 max-w-lg mx-auto rounded-lg">
-          <div class="input-group mb-3">
-            <input type="text" id="order-id" class="form-control rounded-pill" placeholder="Enter Order ID" />
-            <button class="btn btn-emerald rounded-pill" onclick="trackOrder()">Track</button>
+    <section id="orders" class="py-16 bg-white dark:bg-gray-800">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Track Your Order</h2>
+        <div class="max-w-md mx-auto bg-emerald-50 dark:bg-gray-700 p-8 rounded-xl shadow-lg glass">
+          <div class="flex gap-4">
+            <input type="text" id="order-id" class="flex-1 p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Enter Order ID" aria-label="Order ID" />
+            <button class="bg-emerald-600 text-white px-6 py-3 rounded-full hover:bg-emerald-700 transition-transform transform hover:scale-105" onclick="trackOrder()">Track</button>
           </div>
-          <div id="order-status" class="mt-4"></div>
+          <div id="order-status" class="mt-6"></div>
         </div>
       </div>
     </section>
 
     <!-- Recently Viewed -->
-    <section id="recently-viewed" class="py-12 bg-snow">
-      <div class="container">
-        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-          Recently Viewed
-        </h2>
-        <div id="recent-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"></div>
+    <section id="recently-viewed" class="py-16 bg-gray-100 dark:bg-gray-900">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Recently Viewed</h2>
+        <div id="recent-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
       </div>
     </section>
 
     <!-- Recommendations -->
-    <section id="recommendations" class="py-12 bg-white">
-      <div class="container">
-        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-          Recommended for You
-        </h2>
-        <div id="recommendation-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"></div>
+    <section id="recommendations" class="py-16 bg-white dark:bg-gray-800">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12 text-center" data-aos="fade-up">Recommended for You</h2>
+        <div id="recommendation-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
       </div>
     </section>
 
     <!-- About -->
-    <section id="about" class="py-12 bg-snow">
-      <div class="container text-center">
-        <h2 class="text-3xl font-poppins text-indigo mb-8" data-aos="fade-up">
-          About EcoShop
-        </h2>
-        <p class="text-lg text-charcoal max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+    <section id="about" class="py-16 bg-gray-100 dark:bg-gray-900 text-center">
+      <div class="container mx-auto max-w-7xl px-4">
+        <h2 class="text-4xl font-poppins text-indigo-900 dark:text-indigo-200 mb-12" data-aos="fade-up">About EcoShop</h2>
+        <p class="text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto mb-8" data-aos="fade-up" data-aos-delay="200">
           EcoShop: Pro Edition brings sustainable shopping to India with eco-friendly products that blend innovation and responsibility.
         </p>
-        <img src="assets/svgs/sustainability.svg" alt="Sustainability" class="w-48 h-48 mx-auto mt-6" data-aos="zoom-in" />
+        <img src="assets/svgs/sustainability.svg" alt="Sustainability" class="w-32 h-32 mx-auto" loading="lazy" data-aos="zoom-in" />
       </div>
     </section>
 
     <!-- Newsletter Popup -->
-    <div class="modal fade" id="newsletter-popup" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-snow rounded-3">
-          <div class="modal-header border-0">
-            <h5 class="modal-title font-poppins text-indigo">Join Our Eco Journey</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal fade" id="newsletter-popup" tabindex="-1" aria-labelledby="newsletter-popup-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered max-w-md">
+        <div class="modal-content bg-white dark:bg-gray-800 rounded-2xl shadow-2xl glass">
+          <div class="modal-header border-0 p-6">
+            <h5 class="text-2xl font-poppins text-indigo-900 dark:text-indigo-200" id="newsletter-popup-title">Join Our Eco Journey</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body p-6">
             <form id="newsletter-form">
-              <div class="input-group">
-                <input type="email" class="form-control rounded-pill" placeholder="Your Email" required />
-                <button type="submit" class="btn btn-tangerine rounded-pill">Subscribe</button>
+              <div class="flex gap-4">
+                <input type="email" class="flex-1 p-3 rounded-full border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" placeholder="Your Email" required aria-label="Email for newsletter" />
+                <button type="submit" class="bg-tangerine-500 text-white px-6 py-3 rounded-full hover:bg-tangerine-600 transition-transform transform hover:scale-105">Subscribe</button>
               </div>
             </form>
           </div>
@@ -533,59 +577,80 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-indigo text-snow py-12">
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <h5 class="font-poppins mb-4">EcoShop</h5>
-            <p class="text-snow/80">Green today, thriving tomorrow.</p>
-            <form id="footer-newsletter" class="mt-4">
-              <div class="input-group">
-                <input type="email" class="form-control rounded-pill" placeholder="Get updates" />
-                <button type="submit" class="btn btn-tangerine rounded-pill">Go</button>
+    <footer class="bg-indigo-900 dark:bg-indigo-950 text-white py-16">
+      <div class="container mx-auto max-w-7xl px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+          <div>
+            <h5 class="text-2xl font-poppins mb-6">EcoShop</h5>
+            <p class="text-gray-300">Green today, thriving tomorrow.</p>
+            <form id="footer-newsletter" class="mt-6">
+              <div class="flex gap-4">
+                <input type="email" class="flex-1 p-3 rounded-full bg-gray-800 border border-gray-600 text-white" placeholder="Get updates" aria-label="Email for newsletter" />
+                <button type="submit" class="bg-tangerine-500 text-white px-6 py-3 rounded-full hover:bg-tangerine-600">Subscribe</button>
               </div>
             </form>
           </div>
-          <div class="col-md-2">
-            <h5 class="font-poppins mb-4">Shop</h5>
-            <ul class="list-unstyled">
-              <li><a href="#products" class="text-snow/80 hover:text-tangerine">Products</a></li>
-              <li><a href="#categories" class="text-snow/80 hover:text-tangerine">Categories</a></li>
-              <li><a href="#deals" class="text-snow/80 hover:text-tangerine">Deals</a></li>
+          <div>
+            <h5 class="text-2xl font-poppins mb-6">Shop</h5>
+            <ul class="space-y-2">
+              <li><a href="#products" class="text-gray-300 hover:text-tangerine-400">Products</a></li>
+              <li><a href="#categories" class="text-gray-300 hover:text-tangerine-400">Categories</a></li>
+              <li><a href="#deals" class="text-gray-300 hover:text-tangerine-400">Deals</a></li>
             </ul>
           </div>
-          <div class="col-md-2">
-            <h5 class="font-poppins mb-4">Support</h5>
-            <ul class="list-unstyled">
-              <li><a href="#orders" class="text-snow/80 hover:text-tangerine">Track Orders</a></li>
-              <li><a href="#about" class="text-snow/80 hover:text-tangerine">About Us</a></li>
+          <div>
+            <h5 class="text-2xl font-poppins mb-6">Support</h5>
+            <ul class="space-y-2">
+              <li><a href="#orders" class="text-gray-300 hover:text-tangerine-400">Track Orders</a></li>
+              <li><a href="#about" class="text-gray-300 hover:text-tangerine-400">About Us</a></li>
             </ul>
           </div>
-          <div class="col-md-4">
-            <h5 class="font-poppins mb-4">Connect</h5>
-            <div class="d-flex gap-3">
-              <a href="#" class="text-snow/80 hover:text-tangerine"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="text-snow/80 hover:text-tangerine"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="text-snow/80 hover:text-tangerine"><i class="fab fa-facebook"></i></a>
+          <div>
+            <h5 class="text-2xl font-poppins mb-6">Connect</h5>
+            <div class="flex gap-4">
+              <a href="#" class="text-gray-300 hover:text-tangerine-400 text-2xl" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-gray-300 hover:text-tangerine-400 text-2xl" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-gray-300 hover:text-tangerine-400 text-2xl" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
             </div>
           </div>
         </div>
-        <p class="text-center text-snow/80 mt-6">© 2025 EcoShop: Pro Edition</p>
+        <p class="text-center text-gray-300 mt-12">© 2025 EcoShop: Pro Edition</p>
       </div>
     </footer>
 
     <!-- Sticky Cart Button -->
-    <div id="sticky-cart" class="position-fixed bottom-4 end-4 bg-emerald text-snow p-3 rounded-pill shadow-lg d-none">
-      <i class="fas fa-shopping-cart me-2"></i>
+    <button id="sticky-cart" class="fixed bottom-6 right-6 bg-emerald-600 text-white py-3 px-6 rounded-full shadow-2xl hidden flex items-center gap-2 hover:scale-110 transition-transform btn-glow" aria-label="View cart">
+      <i class="fas fa-shopping-cart"></i>
       <span id="sticky-cart-count">0</span> Items
-      <span id="sticky-cart-total" class="ms-2">₹0</span>
-    </div>
+      <span id="sticky-cart-total">₹0</span>
+    </button>
 
     <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
     <script src="js/script.js"></script>
+    <script>
+      // Initialize Swiper
+      new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+          640: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        },
+      });
+      // Parallax Effect
+      $(window).on('scroll', function() {
+        $('.hero-bg').css('background-position-y', window.scrollY * 0.3 + 'px');
+      });
+    </script>
   </body>
 </html>
